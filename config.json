@@ -1,0 +1,21 @@
+{
+  "brand_wordmark": "mezmurfaith",
+  "timezone": "America/Chicago",
+  "post_time": "07:00",
+  "hashtags": [
+    "#MezmurFaith",
+    "#BibleVerse",
+    "#DailyVerse",
+    "#VerseOfTheDay",
+    "#Tigrinya",
+    "#Scripture",
+    "#Faith",
+    "#Orthodox",
+    "#Christian"
+  ],
+  "when_verses_run_out": "stop_and_notify",
+  "require_approval": false,
+  "label_ai_generated": false,
+  "instagram_api_version": "v27.0",
+  "public_base_url": ""
+}

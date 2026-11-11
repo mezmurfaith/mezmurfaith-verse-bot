@@ -1,0 +1,21 @@
+name: Check verses
+
+# Runs whenever verses.json or the code changes, so a mistake is caught right away
+# (you'll get an email if it fails) instead of on posting day.
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -q -r requirements.txt
+      - run: python -m bot.main validate
+      - run: python -m pytest -q

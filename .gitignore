@@ -1,0 +1,11 @@
+# Never commit secrets
+.env
+*.token
+
+# Local-only files
+.venv/
+__pycache__/
+.pytest_cache/
+output/
+state/
+.DS_Store

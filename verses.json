@@ -1,0 +1,12 @@
+[
+  {
+    "id": "psalm-23-1",
+    "english_text": "The Lord is my shepherd; I shall not want.",
+    "english_ref": "Psalm 23:1",
+    "tigrinya_text": "እግዚኣብሄር ጓሳይየይ እዩ፣ ዚጐድለኒ የብለይን።",
+    "tigrinya_ref": "ዳዊት 23፥1",
+    "scene_prompt": "a shepherd with a staff watching sheep graze on a quiet hillside",
+    "posted": false,
+    "posted_date": null
+  }
+]

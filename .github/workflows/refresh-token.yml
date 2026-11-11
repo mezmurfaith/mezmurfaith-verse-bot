@@ -1,0 +1,48 @@
+name: Refresh Instagram token
+
+# Instagram tokens last 60 days. Refreshing every week keeps it alive forever.
+# If a refresh fails you get an issue/email with weeks to spare.
+on:
+  schedule:
+    - cron: "0 15 * * 1"   # Mondays
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -q -r requirements.txt
+
+      - name: Get a fresh token
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m bot.main refresh-token --out "$RUNNER_TEMP/ig_token"
+
+      - name: Save it as the IG_ACCESS_TOKEN secret
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh secret set IG_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" < "$RUNNER_TEMP/ig_token"
+          rm -f "$RUNNER_TEMP/ig_token"
+          echo "Saved."
+
+      - name: Tell me if it failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -f "$RUNNER_TEMP/ig_token"
+          [ -f state/notified ] && exit 0
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "[verse bot] Could not save the refreshed Instagram token" \
+            --body "Check that the GH_PAT secret is set and hasn't expired (see README). Log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

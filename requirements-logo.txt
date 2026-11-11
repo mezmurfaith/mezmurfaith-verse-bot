@@ -1,0 +1,4 @@
+# Only needed to run scripts/make_logo.py (rebuilding the logo)
+-r requirements.txt
+numpy==2.5.4
+scipy==1.18.1
