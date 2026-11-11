@@ -317,13 +317,22 @@ def cmd_preview(args):
 def cmd_check_instagram(args):
     from bot.instagram import Instagram, InstagramError
     cfg = load_config()
+    tok = os.environ.get("IG_ACCESS_TOKEN", "").strip()
+    kind = ("Instagram-login token" if tok.startswith("IG") else
+            "Facebook-style token (needs a code change)" if tok.startswith("EAA") else "unknown token type")
+    print(f"Token type: {kind}")
     try:
-        ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", ""), os.environ.get("IG_USER_ID", ""), cfg["instagram_api_version"])
+        ig = Instagram(tok, os.environ.get("IG_USER_ID", "").strip(), cfg["instagram_api_version"])
         me = ig.me()
         print(f"Connected to Instagram account @{me.get('username')} (user id {me.get('user_id')})")
         if ig.user_id and str(me.get("user_id")) != str(ig.user_id):
             print(f"WARNING: IG_USER_ID is {ig.user_id} but the token belongs to {me.get('user_id')}")
             return 1
+        try:
+            q = ig.publishing_quota()
+            print(f"Publishing allowed. Quota info: {q.get('data', q)}")
+        except InstagramError as e:
+            print(f"Could not read publishing quota (may be fine): {e}")
     except InstagramError as e:
         print("Instagram check failed:", e)
         return 1
