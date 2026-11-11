@@ -51,6 +51,7 @@ When you save (commit) on GitHub, the **Check verses** workflow runs automatical
 
 | Setting | What it does |
 |---|---|
+| `paused` | `true` = never post (test runs still work). Set to `false` to go live |
 | `hashtags` | Hashtags at the end of every caption (Instagram allows at most 30) |
 | `post_time` | Earliest posting time each day, Chicago time (`"07:00"`) |
 | `require_approval` | `true` = only post posters you approved with **Preview week**. `false` = post automatically |

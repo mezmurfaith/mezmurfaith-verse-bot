@@ -144,6 +144,10 @@ def cmd_prepare(args):
     today = now.date().isoformat()
     set_output("ready", "false")
 
+    if cfg.get("paused") and not args.dry_run:
+        log.info("Posting is paused (\"paused\": true in config.json). Test runs still work.")
+        return 0
+
     if not args.force and now.strftime("%H:%M") < cfg["post_time"]:
         log.info("It's %s in %s — before %s, nothing to do yet.", now.strftime("%H:%M"), cfg["timezone"], cfg["post_time"])
         return 0

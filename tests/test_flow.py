@@ -22,7 +22,8 @@ def sandbox(tmp_path, monkeypatch):
     monkeypatch.delenv("GITHUB_TOKEN", raising=False)
     monkeypatch.setenv("IG_ACCESS_TOKEN", "fake-token")
     monkeypatch.setenv("IG_USER_ID", "123")
-    monkeypatch.setattr(main, "load_config", lambda: {**json.load(open("config.json")), "public_base_url": "https://example.test"})
+    monkeypatch.setattr(main, "load_config", lambda: {**json.load(open("config.json")), "paused": False,
+                                                      "public_base_url": "https://example.test"})
     return tmp_path
 
 
@@ -96,6 +97,13 @@ def test_preview_then_daily_uses_approved_poster(sandbox, monkeypatch):
     assert main.main(["publish"]) == 0
     assert len(FakeIG.posted) == 1
     assert not (sandbox / "docs" / "queue" / f"{day}.jpg").exists()
+
+
+def test_paused_never_posts(sandbox, monkeypatch):
+    cfg = {**json.load(open("config.json")), "paused": True, "public_base_url": "https://example.test"}
+    monkeypatch.setattr(main, "load_config", lambda: cfg)
+    assert main.main(["prepare", "--force", "--placeholder"]) == 0
+    assert not (sandbox / "state" / "pending.json").exists()
 
 
 def test_before_post_time_does_nothing(sandbox, monkeypatch):

@@ -69,7 +69,13 @@ def describe(e: Exception) -> str:
     msg = ""
     body = getattr(e, "body", None)
     if isinstance(body, dict):
-        msg = body.get("message") or (body.get("error") or {}).get("message", "")
+        err = body.get("error") if isinstance(body.get("error"), dict) else {}
+        msg = body.get("message") or err.get("message", "")
+        param = body.get("param") or err.get("param")
+        if param:
+            msg = f"{msg} (parameter: {param})"
+    if not msg:
+        msg = getattr(e, "message", "") or str(e)
     msg = re.sub(r"sk-[A-Za-z0-9_*-]+", "sk-***", str(msg))[:300]
     text = f"{type(e).__name__} (HTTP {status}, code={code}): {msg}".strip()
     if code in HINTS:
