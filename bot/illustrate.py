@@ -72,7 +72,13 @@ def describe(e: Exception) -> str:
         msg = body.get("message") or (body.get("error") or {}).get("message", "")
     msg = re.sub(r"sk-[A-Za-z0-9_*-]+", "sk-***", str(msg))[:300]
     text = f"{type(e).__name__} (HTTP {status}, code={code}): {msg}".strip()
-    return f"{text}\n→ {HINTS[code]}" if code in HINTS else text
+    if code in HINTS:
+        return f"{text}\n→ {HINTS[code]}"
+    if "Limit 0" in msg:
+        return (f"{text}\n→ Your OpenAI account isn't allowed to make images yet (free tier). "
+                "Add credit at platform.openai.com → Settings → Billing; it unlocks within a few minutes. "
+                "If it still fails, verify your organization under Settings → Organization → General.")
+    return text
 
 
 def generate_openai(scene: str) -> Image.Image:
