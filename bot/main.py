@@ -314,35 +314,64 @@ def cmd_preview(args):
     return 0
 
 
+def _expiry_text(exp):
+    if exp is None:
+        return "unknown"
+    if exp == 0:
+        return "never expires"
+    days = (exp - datetime.now().timestamp()) / 86400
+    return f"expires in {days:.0f} days ({datetime.fromtimestamp(exp).date()})"
+
+
 def cmd_check_instagram(args):
     from bot.instagram import Instagram, InstagramError
     cfg = load_config()
     tok = os.environ.get("IG_ACCESS_TOKEN", "").strip()
-    kind = ("Instagram-login token" if tok.startswith("IG") else
-            "Facebook-style token (needs a code change)" if tok.startswith("EAA") else "unknown token type")
+    uid = os.environ.get("IG_USER_ID", "").strip()
+    kind = ("Unified-login system-user token (graph.facebook.com)" if tok.startswith("EAA") else
+            "Instagram-login token (graph.instagram.com)" if tok.startswith("IG") else "unknown token type")
     print(f"Token type: {kind}")
     try:
-        ig = Instagram(tok, os.environ.get("IG_USER_ID", "").strip(), cfg["instagram_api_version"])
-        me = ig.me()
-        print(f"Connected to Instagram account @{me.get('username')} (user id {me.get('user_id')})")
-        if ig.user_id and str(me.get("user_id")) != str(ig.user_id):
-            print(f"WARNING: IG_USER_ID is {ig.user_id} but the token belongs to {me.get('user_id')}")
-            return 1
-        try:
-            q = ig.publishing_quota()
-            print(f"Publishing allowed. Quota info: {q.get('data', q)}")
-        except InstagramError as e:
-            print(f"Could not read publishing quota (may be fine): {e}")
+        ig = Instagram(tok, uid, cfg["instagram_api_version"])
+        accts = ig.accounts()
     except InstagramError as e:
         print("Instagram check failed:", e)
         return 1
+    if not accts:
+        print("The token works, but no Instagram account is assigned to it.")
+        return 1
+    for a in accts:
+        print(f"Can post to: @{a.get('username')} — Instagram account ID {a.get('id')}")
+    print(f"Token {_expiry_text(ig.token_expiry())}.")
+    ids = {str(a.get("id")) for a in accts}
+    if uid not in ids:
+        print(f"PROBLEM: the IG_USER_ID secret doesn't match. Set IG_USER_ID to the account ID shown above.")
+        return 1
+    print("IG_USER_ID matches. Ready to post.")
     return 0
 
 
 def cmd_refresh_token(args):
-    from bot.instagram import InstagramError, refresh_token
+    """Instagram-login tokens: get a fresh 60-day token. Unified-login tokens: check they still work
+    and warn 2 weeks before any expiry (they normally never expire)."""
+    from bot.instagram import Instagram, InstagramError, is_unified, refresh_token
+    cfg = load_config()
+    tok = os.environ.get("IG_ACCESS_TOKEN", "").strip()
+    if is_unified(tok):
+        try:
+            ig = Instagram(tok, os.environ.get("IG_USER_ID", "").strip(), cfg["instagram_api_version"])
+            ig.accounts()
+            exp = ig.token_expiry()
+        except InstagramError as e:
+            notify("Instagram token stopped working", f"{e}\n\nFollow 'Get a new Instagram token' in the README.")
+            return 1
+        print(f"Token works and {_expiry_text(exp)}.")
+        if exp and exp - datetime.now().timestamp() < 14 * 86400:
+            notify("Instagram token expires soon", f"The token {_expiry_text(exp)}. "
+                   "Follow 'Get a new Instagram token' in the README.")
+        return 0
     try:
-        new, expires_in = refresh_token(os.environ.get("IG_ACCESS_TOKEN", ""))
+        new, expires_in = refresh_token(tok)
     except InstagramError as e:
         notify("Instagram token refresh failed", f"{e}\n\nPosting will stop when the token expires. "
                "Follow 'Get a new Instagram token' in the README.")

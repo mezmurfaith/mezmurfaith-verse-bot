@@ -105,6 +105,11 @@ def test_before_post_time_does_nothing(sandbox, monkeypatch):
     assert not (sandbox / "state" / "pending.json").exists()
 
 
+def test_unified_token_uses_facebook_host():
+    assert instagram.Instagram("EAAxyz", "1").host == instagram.FB_HOST
+    assert instagram.Instagram("IGAAxyz", "1").host == instagram.HOST
+
+
 def test_token_never_in_error_text():
     err = instagram._scrub("bad token abc123 in url ?access_token=abc123", "abc123")
     assert "abc123" not in err

@@ -22,9 +22,10 @@ jobs:
           cache: pip
       - run: pip install -q -r requirements.txt
 
-      - name: Get a fresh token
+      - name: Check the token (and refresh it if it's the 60-day kind)
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
           GITHUB_TOKEN: ${{ github.token }}
         run: python -m bot.main refresh-token --out "$RUNNER_TEMP/ig_token"
 
@@ -32,6 +33,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
+          # Only Instagram-login tokens get a new value. Unified-login tokens don't need one.
+          if [ ! -s "$RUNNER_TEMP/ig_token" ]; then echo "Nothing to save."; exit 0; fi
           gh secret set IG_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" < "$RUNNER_TEMP/ig_token"
           rm -f "$RUNNER_TEMP/ig_token"
           echo "Saved."

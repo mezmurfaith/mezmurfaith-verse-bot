@@ -1,4 +1,9 @@
-"""Instagram API with Instagram Login (graph.instagram.com).
+"""Instagram API — works with both kinds of Meta token:
+
+- Unified login (new apps, token starts with "EAA"): graph.facebook.com.
+  This is a system-user token; by default it never expires.
+- Instagram login (older apps, token starts with "IG"): graph.instagram.com.
+  Lasts 60 days and is refreshed weekly.
 
 Posting = 1) create a media container from a public JPEG URL, 2) wait until it's ready,
 3) publish it. Tokens are never printed: any error text has the token removed.
@@ -8,8 +13,13 @@ import time
 
 import requests
 
-HOST = "https://graph.instagram.com"
+HOST = "https://graph.instagram.com"       # Instagram login
+FB_HOST = "https://graph.facebook.com"     # Unified login
 log = logging.getLogger("instagram")
+
+
+def is_unified(token: str) -> bool:
+    return token.startswith("EAA")
 
 
 class InstagramError(Exception):
@@ -28,9 +38,11 @@ class Instagram:
         if not token:
             raise InstagramError("IG_ACCESS_TOKEN is not set")
         self.token, self.user_id, self.version = token, user_id, version
+        self.unified = is_unified(token)
+        self.host = FB_HOST if self.unified else HOST
 
     def _call(self, method: str, path: str, **kw) -> dict:
-        url = f"{HOST}/{self.version}/{path.lstrip('/')}"
+        url = f"{self.host}/{self.version}/{path.lstrip('/')}"
         headers = {"Authorization": f"Bearer {self.token}"}
         try:
             r = requests.request(method, url, headers=headers, timeout=60, **kw)
@@ -43,11 +55,25 @@ class Instagram:
             raise InstagramError(_scrub(f"Instagram API error {r.status_code} ({err.get('code')}): {msg}", self.token))
         return data
 
-    def me(self) -> dict:
+    def accounts(self) -> list[dict]:
+        """Instagram accounts this token can post to: [{'id': ..., 'username': ...}]."""
+        if self.unified:
+            data = self._call("GET", "me/assigned_instagram_accounts", params={"fields": "id,username"})
+            return data.get("data", [])
         data = self._call("GET", "me", params={"fields": "user_id,username"})
         if "data" in data and data["data"]:  # docs show both shapes
             data = data["data"][0]
-        return data
+        return [{"id": str(data.get("user_id")), "username": data.get("username")}]
+
+    def token_expiry(self) -> int | None:
+        """Unix time the token expires; 0 = never; None = unknown."""
+        if not self.unified:
+            return None
+        try:
+            d = self._call("GET", "debug_token", params={"input_token": self.token}).get("data", {})
+            return int(d.get("expires_at", 0) or 0) if d else None
+        except InstagramError:
+            return None
 
     def publishing_quota(self) -> dict:
         return self._call("GET", f"{self.user_id}/content_publishing_limit", params={"fields": "config,quota_usage"})
