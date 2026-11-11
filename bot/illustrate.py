@@ -8,6 +8,7 @@ import logging
 import math
 import os
 import random
+import re
 
 from PIL import Image, ImageDraw, ImageFilter, ImageStat
 
@@ -54,8 +55,28 @@ def quality_problems(img: Image.Image) -> list[str]:
     return out
 
 
+HINTS = {
+    "insufficient_quota": "Your OpenAI account has no credit left. Add credit at platform.openai.com → Settings → Billing.",
+    "billing_hard_limit_reached": "Your OpenAI monthly spending limit was reached. Raise it at platform.openai.com → Settings → Limits.",
+    "invalid_api_key": "The OPENAI_API_KEY secret is wrong. Create a new key and update the secret on GitHub.",
+}
+
+
+def describe(e: Exception) -> str:
+    """Readable reason from an OpenAI error (never includes the key)."""
+    code = getattr(e, "code", None)
+    status = getattr(e, "status_code", None)
+    msg = ""
+    body = getattr(e, "body", None)
+    if isinstance(body, dict):
+        msg = body.get("message") or (body.get("error") or {}).get("message", "")
+    msg = re.sub(r"sk-[A-Za-z0-9_*-]+", "sk-***", str(msg))[:300]
+    text = f"{type(e).__name__} (HTTP {status}, code={code}): {msg}".strip()
+    return f"{text}\n→ {HINTS[code]}" if code in HINTS else text
+
+
 def generate_openai(scene: str) -> Image.Image:
-    from openai import OpenAI, NotFoundError, BadRequestError
+    from openai import OpenAI, NotFoundError, BadRequestError, PermissionDeniedError
 
     if not os.environ.get("OPENAI_API_KEY"):
         raise IllustrationError("OPENAI_API_KEY is not set")
@@ -68,10 +89,14 @@ def generate_openai(scene: str) -> Image.Image:
             data = base64.b64decode(res.data[0].b64_json)
             log.info("Illustration made with %s", model)
             return Image.open(io.BytesIO(data)).convert("RGB")
-        except (NotFoundError, BadRequestError) as e:  # model not available on this account → try next
+        except (NotFoundError, BadRequestError, PermissionDeniedError) as e:  # model not available → try next
             last_err = e
-            log.warning("Model %s not usable (%s), trying next", model, type(e).__name__)
-    raise IllustrationError(f"No image model worked: {last_err}")
+            log.warning("Model %s not usable: %s", model, describe(e))
+        except Exception as e:
+            if getattr(e, "code", None) in HINTS:  # account problem: retrying won't help
+                raise IllustrationError(describe(e)) from None
+            raise
+    raise IllustrationError(f"No image model worked: {describe(last_err) if last_err else 'unknown'}")
 
 
 def get_illustration(scene: str, placeholder: bool = False, attempts: int = 2) -> Image.Image:
@@ -85,7 +110,7 @@ def get_illustration(scene: str, placeholder: bool = False, attempts: int = 2) -
         except IllustrationError:
             raise
         except Exception as e:  # network / API hiccup
-            problems = [f"API error: {type(e).__name__}"]
+            problems = [f"API error: {describe(e)}"]
             log.warning("Attempt %d failed: %s", i + 1, problems[0])
             continue
         problems = quality_problems(img)
