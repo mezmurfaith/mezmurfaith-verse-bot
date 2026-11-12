@@ -23,15 +23,20 @@ def test_parser_reads_joined_verses():
 
 
 class FakeFetcher(fetch_verses.Fetcher):
-    def __init__(self, tig_units, eng):
+    def __init__(self, tig_units, eng, second=None):
         super().__init__(pause=0)
         self.t, self.e = tig_units, eng
+        self.s = second if second is not None else {
+            (f"{a}" if a == b else f"{a}-{b}"): t for (a, b), t in tig_units.items()}
 
     def tigrinya_chapter(self, book, chapter):
         return "ዳዊት", self.t, "https://example.test"
 
     def kjv_chapter(self, book, chapter):
         return self.e
+
+    def second_source(self, book, chapter):
+        return self.s
 
 
 ITEM = {"ref": "Psalm 23:2", "book": "psalms", "chapter": 23, "verse": 2, "scene_prompt": "hills"}
@@ -47,6 +52,18 @@ def test_joined_verse_uses_both_languages_together():
 def test_mismatched_numbering_is_refused():
     f = FakeFetcher({(1, 1): "ሀ", (2, 2): "ለ"}, {1: "One.", 2: "Two.", 3: "Three."})
     with pytest.raises(fetch_verses.FetchError):
+        f.build_entry(ITEM)
+
+
+def test_sites_that_disagree_are_refused():
+    f = FakeFetcher({(1, 1): "ሀ", (2, 2): "ለ"}, {1: "One.", 2: "Two."}, second={"1": "ሀ", "2": "ለለ"})
+    with pytest.raises(fetch_verses.FetchError, match="don't agree"):
+        f.build_entry(ITEM)
+
+
+def test_stray_characters_are_refused_not_edited():
+    f = FakeFetcher({(1, 1): "ሀ", (2, 2): "- ለ"}, {1: "One.", 2: "Two."})
+    with pytest.raises(fetch_verses.FetchError, match="unexpected characters"):
         f.build_entry(ITEM)
 
 

@@ -29,6 +29,20 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 PLAN = ROOT / "data" / "verse_plan.json"
 TIG_URL = "https://www.bible.club/tigrigna/{book}/chapter-{chapter}.html"
 KJV_URL = "https://bible-api.com/{query}?translation=kjv"
+# Second, independent site with the same Tigrinya Bible — used only to double-check.
+GEEZ_URL = "http://bibleonline.geezexperience.com/tigrinya/list.php?book={num}&chapter={chapter}"
+BOOKS = ("genesis exodus leviticus numbers deuteronomy joshua judges ruth 1-samuel 2-samuel 1-kings 2-kings "
+         "1-chronicles 2-chronicles ezra nehemiah esther job psalms proverbs ecclesiastes song-of-solomon isaiah "
+         "jeremiah lamentations ezekiel daniel hosea joel amos obadiah jonah micah nahum habakkuk zephaniah haggai "
+         "zechariah malachi matthew mark luke john acts romans 1-corinthians 2-corinthians galatians ephesians "
+         "philippians colossians 1-thessalonians 2-thessalonians 1-timothy 2-timothy titus philemon hebrews james "
+         "1-peter 2-peter 1-john 2-john 3-john jude revelation").split()
+assert len(BOOKS) == 66 and BOOKS[18] == "psalms"
+
+
+def clean_tigrinya_char(c: str) -> bool:
+    """Only Ge'ez letters, Ge'ez punctuation and spaces are allowed in a verse."""
+    return c == " " or verses.is_ethiopic(c)
 HEADERS = {"User-Agent": "MezmurFaithVerseBot/1.0"}
 
 log = logging.getLogger("fetch")
@@ -100,7 +114,7 @@ def tidy_english(text: str) -> str:
 class Fetcher:
     def __init__(self, pause: float = 1.0):
         self.pause = pause
-        self._tig, self._kjv = {}, {}
+        self._tig, self._kjv, self._geez = {}, {}, {}
 
     def tigrinya_chapter(self, book: str, chapter: int):
         key = (book, chapter)
@@ -121,6 +135,22 @@ class Fetcher:
             time.sleep(self.pause)
         return self._kjv[key]
 
+    def second_source(self, book: str, chapter: int) -> dict[str, str]:
+        """The same chapter from a second, independent Tigrinya Bible website: {"7-8": text}."""
+        key = (book, chapter)
+        if key not in self._geez:
+            num = BOOKS.index(book) + 1
+            page = _get(GEEZ_URL.format(num=num, chapter=chapter)).text
+            out = {}
+            for n, t in re.findall(r'<dt\s*>\s*([0-9]+(?:-[0-9]+)?)\s*</dt>\s*<dd\s*>\s*<span class="geez">(.*?)</span>',
+                                   page, re.S):
+                out[n] = " ".join(html.unescape(re.sub(r"<[^>]+>", "", t)).split())
+            if not out:
+                raise FetchError("second Tigrinya source returned no verses")
+            self._geez[key] = out
+            time.sleep(self.pause)
+        return self._geez[key]
+
     def build_entry(self, item: dict) -> dict:
         book, ch, vs = item["book"], int(item["chapter"]), int(item["verse"])
         tig_book, tig_units, tig_url = self.tigrinya_chapter(book, ch)
@@ -138,18 +168,27 @@ class Fetcher:
         if b - a > 2:
             raise FetchError(f"verse {vs} is joined into a long passage ({a}-{b})")
         nums = f"{a}" if a == b else f"{a}-{b}"
+        tig_text = tig_units[unit]
+        odd = sorted({c for c in tig_text if not clean_tigrinya_char(c)})
+        if odd:
+            raise FetchError("Tigrinya text has unexpected characters " + " ".join(repr(c) for c in odd))
+        other = self.second_source(book, ch).get(nums)
+        if other != tig_text:
+            raise FetchError("the two Tigrinya Bible websites don't agree letter for letter")
         english = " ".join(tidy_english(eng_verses[n]) for n in range(a, b + 1))
         eng_ref = f"{item['ref'].rsplit(':', 1)[0]}:{nums}"
         return {
             "id": re.sub(r"[^a-z0-9]+", "-", eng_ref.lower()).strip("-"),
             "english_text": english,
             "english_ref": eng_ref,
-            "tigrinya_text": tig_units[unit],
+            "tigrinya_text": tig_text,
             "tigrinya_ref": f"{tig_book} {ch}፥{nums}",
             "scene_prompt": item["scene_prompt"],
             "posted": False,
             "posted_date": None,
-            "source": {"tigrinya": tig_url, "english": "King James Version (public domain), bible-api.com"},
+            "source": {"tigrinya": tig_url,
+                       "tigrinya_check": GEEZ_URL.format(num=BOOKS.index(book) + 1, chapter=ch),
+                       "english": "King James Version (public domain), bible-api.com"},
         }
 
 
