@@ -88,7 +88,7 @@ def describe(e: Exception) -> str:
 
 
 def generate_openai(scene: str) -> Image.Image:
-    from openai import OpenAI, NotFoundError, BadRequestError, PermissionDeniedError
+    from openai import OpenAI, NotFoundError, BadRequestError, PermissionDeniedError, InternalServerError
 
     if not os.environ.get("OPENAI_API_KEY"):
         raise IllustrationError("OPENAI_API_KEY is not set")
@@ -101,7 +101,8 @@ def generate_openai(scene: str) -> Image.Image:
             data = base64.b64decode(res.data[0].b64_json)
             log.info("Illustration made with %s", model)
             return Image.open(io.BytesIO(data)).convert("RGB")
-        except (NotFoundError, BadRequestError, PermissionDeniedError) as e:  # model not available → try next
+        except (NotFoundError, BadRequestError, PermissionDeniedError, InternalServerError) as e:
+            # model not available or having server trouble → try the next model
             last_err = e
             log.warning("Model %s not usable: %s", model, describe(e))
         except Exception as e:
