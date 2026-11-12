@@ -133,13 +133,13 @@ def layout(verse: dict, scale: float):
 def fit(verse: dict, top: int):
     """Largest text size that fits between the header and the illustration."""
     avail = TEXT_LIMIT - top
-    scale = 1.0
-    while scale >= MIN_SCALE - 1e-9:
+    step = 0
+    while (scale := round(1.0 - 0.02 * step, 2)) >= MIN_SCALE:
         items, total = layout(verse, scale)
         widest = max(it[2].getlength(it[1]) for it in items)
         if total <= avail and widest <= MAX_TEXT_W:
             return items, total, scale
-        scale -= 0.02
+        step += 1
     raise VerseTooLong(
         f"Verse {verse.get('id')} is too long to fit even at the smallest readable size."
     )

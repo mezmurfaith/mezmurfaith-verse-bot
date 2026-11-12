@@ -387,6 +387,20 @@ def cmd_refresh_token(args):
     return 0
 
 
+def cmd_import_verses(args):
+    from bot.fetch_verses import import_verses
+    waiting = sum(1 for v in verses.load() if not v.get("posted") and not verses.problems(v))
+    if args.min_waiting is not None and waiting >= args.min_waiting:
+        print(f"{waiting} verses waiting — no top-up needed.")
+        return 0
+    added, warnings = import_verses(limit=args.limit)
+    print(f"Added {added} verses from the online Bibles ({len(warnings)} skipped).")
+    left = sum(1 for v in verses.load() if not v.get("posted") and not verses.problems(v))
+    if left == 0:
+        notify("Out of verses", "Every verse in data/verse_plan.json has been posted. Ask Claude to add more references to the plan.")
+    return 0
+
+
 def main(argv=None):
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     p = argparse.ArgumentParser(prog="bot")
@@ -406,9 +420,13 @@ def main(argv=None):
     sub.add_parser("check-instagram")
     rt = sub.add_parser("refresh-token")
     rt.add_argument("--out", required=True)
+    iv = sub.add_parser("import-verses")
+    iv.add_argument("--limit", type=int, help="add at most this many")
+    iv.add_argument("--min-waiting", type=int, help="only import if fewer than this many verses are waiting")
     args = p.parse_args(argv)
     fn = {"validate": cmd_validate, "render": cmd_render, "prepare": cmd_prepare, "publish": cmd_publish,
-          "preview": cmd_preview, "check-instagram": cmd_check_instagram, "refresh-token": cmd_refresh_token}[args.cmd]
+          "preview": cmd_preview, "check-instagram": cmd_check_instagram, "refresh-token": cmd_refresh_token,
+          "import-verses": cmd_import_verses}[args.cmd]
     return fn(args)
 
 

@@ -46,6 +46,19 @@ jobs:
       - name: Safety tests (nothing is posted if any fail)
         run: python -m pytest -q
 
+      - name: Top up verses from the online Bibles (when fewer than 14 are waiting)
+        if: ${{ !inputs.dry_run }}
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m bot.main import-verses --min-waiting 14
+          python -m pytest -q
+          git config user.name "mezmurfaith-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add verses.json
+          git diff --cached --quiet || (git commit -q -m "Add verses from the online Bibles" && git pull -q --rebase && git push -q)
+
       - name: Make today's poster
         id: prepare
         env:

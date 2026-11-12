@@ -8,5 +8,845 @@
     "scene_prompt": "a shepherd with a staff watching sheep graze on a quiet hillside",
     "posted": true,
     "posted_date": "2026-11-12"
+  },
+  {
+    "id": "philippians-4-13",
+    "english_text": "I can do all things through Christ which strengtheneth me.",
+    "english_ref": "Philippians 4:13",
+    "tigrinya_text": "በቲ ሓይሊ ዚህበኒ ብክርስቶስ ንዅሉ ክኽእሎ እየ።",
+    "tigrinya_ref": "ፊሊጲ 4፥13",
+    "scene_prompt": "a traveler with a walking staff climbing a steep mountain path toward the summit",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/philippians/chapter-4.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "jeremiah-29-11",
+    "english_text": "For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil, to give you an expected end.",
+    "english_ref": "Jeremiah 29:11",
+    "tigrinya_text": "ኣነ ዝሐስበልኩም ዘሎኹ ሓሳብ እፈልጦ እየ፡ መፈጸምታን ተስፋን ክህበኩምሲ፡ ሓሳብ ደሓን እምበር፡ ናይ ክፉእ ኣይኰነን፡ ይብል እግዚኣብሄር።",
+    "tigrinya_ref": "ኤርምያስ 29፥11",
+    "scene_prompt": "an open road winding through quiet fields toward distant hills under a wide sky",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/jeremiah/chapter-29.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "isaiah-40-31",
+    "english_text": "But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+    "english_ref": "Isaiah 40:31",
+    "tigrinya_text": "እቶም ንእግዚኣብሄር ዚጽበዩ ግና ሓይሎም ይሕደስ። ከም ንስሪ በኽናፍ ይድይቡ፡ ይጐዩ እሞ ኣይሕለሉን፡ ይኸዱ እሞ ኣይደኽሙን።",
+    "tigrinya_ref": "ኢሳይያስ 40፥31",
+    "scene_prompt": "an eagle soaring high above mountain peaks with wings spread wide",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/isaiah/chapter-40.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "proverbs-3-5",
+    "english_text": "Trust in the Lord with all thine heart; and lean not unto thine own understanding.",
+    "english_ref": "Proverbs 3:5",
+    "tigrinya_text": "ብምሉእ ልብኻ ብእግዚኣብሄር ተኣመን፡ ኣብ ልቦናኻ ኣይትጸጋዕ።",
+    "tigrinya_ref": "ምሳሌ 3፥5",
+    "scene_prompt": "a person walking a narrow path through a field at dusk, carrying a small oil lantern",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/proverbs/chapter-3.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "joshua-1-9",
+    "english_text": "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the Lord thy God is with thee whithersoever thou goest.",
+    "english_ref": "Joshua 1:9",
+    "tigrinya_text": "ጽናዕ፡ ትባዕ፡ ኢለዶ ኣይኣዘዝኩኻን፧ እግዚኣብሄር ኣምላኽካ፡ ኣብ እትኸዶ ዅሉ ምሳኻ እዩ እሞ፡ ኣይትፍራህ ኣይትሸበር ከኣ።",
+    "tigrinya_ref": "ኢያሱ 1፥9",
+    "scene_prompt": "a lone traveler standing on a riverbank looking across the water toward a promised land",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/joshua/chapter-1.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "romans-8-28",
+    "english_text": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+    "english_ref": "Romans 8:28",
+    "tigrinya_text": "ነቶም ንኣምላኽ ዜፍቅሩ፡ ከም ምኽሩውን እተጸውዑ ግና ኵሉ ንሰናዮም ከም ዚድግፎም፡ ንፈልጥ ኢና።",
+    "tigrinya_ref": "ሮሜ 8፥28",
+    "scene_prompt": "a young seedling sprouting from cracked dry earth, its roots spreading below",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/romans/chapter-8.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "matthew-11-28",
+    "english_text": "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+    "english_ref": "Matthew 11:28",
+    "tigrinya_text": "ኣቱም ኵልኹም እትጽዕሩን ጾር ዝኸበደኩምን፡ ኣነ ኸዕርፈኩም ናባይ ንዑ።",
+    "tigrinya_ref": "ማቴዎስ 11፥28",
+    "scene_prompt": "a weary traveler resting in the shade of a large old tree beside a road",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/matthew/chapter-11.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "john-14-6",
+    "english_text": "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me.",
+    "english_ref": "John 14:6",
+    "tigrinya_text": "ኢየሱስ ከኣ፥ መገድን ሓቅን ህይወትን ኣነ እየ። ብዘይ ብኣይ ሓደ እኳ ናብ ኣቦ ዚመጽእ የልቦን።",
+    "tigrinya_ref": "ወ. ዮሐንስ 14፥6",
+    "scene_prompt": "a narrow stone road leading up to an open gate with soft light beyond it",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/john/chapter-14.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-46-1",
+    "english_text": "God is our refuge and strength, a very present help in trouble.",
+    "english_ref": "Psalm 46:1",
+    "tigrinya_text": "ኣምላኽ ንኣና መዕቈብን ሓይልን፣ ብጸበባ ፍጡን ረድኤትን እዩ።",
+    "tigrinya_ref": "ዳዊት 46፥1",
+    "scene_prompt": "an ancient stone fortress standing firm on a rocky hill",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-46.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-119-105",
+    "english_text": "Thy word is a lamp unto my feet, and a light unto my path.",
+    "english_ref": "Psalm 119:105",
+    "tigrinya_text": "ቃልካ ንእግረይ መብራህቲ፡ ንመገደይ ብርሃን እዩ።",
+    "tigrinya_ref": "ዳዊት 119፥105",
+    "scene_prompt": "a small oil lamp lighting a dark rocky path at night",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-119.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "john-3-16",
+    "english_text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+    "english_ref": "John 3:16",
+    "tigrinya_text": "ኣምላኽ፡ በቲ ሓደ ወዱ ዝኣመነ ዅሉ ናይ ዘለኣለም ህይወት ምእንቲ ኺረክብ እምበር፡ ከይጠፍእሲ፡ ንወዱ በጃ ኽሳዕ ዚህብ፡ ክሳዕ ክንድዚ ንዓለም ኣፍቀራ።",
+    "tigrinya_ref": "ወ. ዮሐንስ 3፥16",
+    "scene_prompt": "a simple wooden cross on a hill at dawn with soft rays of light behind it",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/john/chapter-3.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "romans-12-12",
+    "english_text": "Rejoicing in hope; patient in tribulation; continuing instant in prayer;",
+    "english_ref": "Romans 12:12",
+    "tigrinya_text": "ብተስፋ ተሐጐሱ፡ ብጸበባ ተዓገሱ፡ ጸሎት ኣዘውትሩ።",
+    "tigrinya_ref": "ሮሜ 12፥12",
+    "scene_prompt": "a person kneeling in quiet prayer beside a window with morning light",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/romans/chapter-12.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "isaiah-41-10",
+    "english_text": "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
+    "english_ref": "Isaiah 41:10",
+    "tigrinya_text": "ምሳኻ እየ እሞ፡ ኣይትፍራህ፡ ኣነ ኣምላኽካ እየ እሞ፡ ኣይትሸበር፡ ከበርትዓካ፡ ክረድኣካ፡ ብየማነይቲ ኢድ ጽድቀይውን ክድግፈካ እየ።",
+    "tigrinya_ref": "ኢሳይያስ 41፥10",
+    "scene_prompt": "a strong hand reaching down to lift a fallen person from the ground",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/isaiah/chapter-41.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "matthew-6-33",
+    "english_text": "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.",
+    "english_ref": "Matthew 6:33",
+    "tigrinya_text": "ቅድም መንግስቲ ኣምላኽን ጽድቁን ድለዩ፡ እዚ ኹሉ ድማ ይውሰኸልኩም።",
+    "tigrinya_ref": "ማቴዎስ 6፥33",
+    "scene_prompt": "wild lilies growing in a quiet meadow with birds overhead",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/matthew/chapter-6.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-27-1",
+    "english_text": "The Lord is my light and my salvation; whom shall I fear? the Lord is the strength of my life; of whom shall I be afraid?",
+    "english_ref": "Psalm 27:1",
+    "tigrinya_text": "እግዚኣብሄር ብርሃነይን ምድሓነይን እዩ፣ ካብ መን ደአ እየ ዝፈርህ፧ እግዚኣብሄር ሓይሊ ህይወተይ እዩ፣ ካብ መንከ እየ ዝስምብድ፧",
+    "tigrinya_ref": "ዳዊት 27፥1",
+    "scene_prompt": "a lighthouse shining its beam over a stormy sea",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-27.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "2-corinthians-5-6-7",
+    "english_text": "Therefore we are always confident, knowing that, whilst we are at home in the body, we are absent from the Lord: (For we walk by faith, not by sight:)",
+    "english_ref": "2 Corinthians 5:6-7",
+    "tigrinya_text": "ስለዚ ዅሉ ሳዕ እሙንቶ ኣላትና፡ ብእምነት እምበር፡ ብምርኣይ ኣይኰንናን እንመላለስ ዘሎና እሞ፡ ኣብ ስጋ ሰፊርና ኸሎና፡ ካብ ጐይታ ርሑቓት ከም ዝዀንና፡ ንፈልጥ ኢና።",
+    "tigrinya_ref": "2ይ ቆሮንቶስ 5፥6-7",
+    "scene_prompt": "footprints in the sand leading toward a wide horizon",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/2-corinthians/chapter-5.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-121-1",
+    "english_text": "I will lift up mine eyes unto the hills, from whence cometh my help.",
+    "english_ref": "Psalm 121:1",
+    "tigrinya_text": "ኣዒንተይ ናብ ኣኽራን ኤልዕል ኣሎኹ። ረዲኤተይ ካበይ እዩ ዚመጸኒ፧",
+    "tigrinya_ref": "ዳዊት 121፥1",
+    "scene_prompt": "a person standing in a valley looking up at tall mountains",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-121.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-118-24",
+    "english_text": "This is the day which the Lord hath made; we will rejoice and be glad in it.",
+    "english_ref": "Psalm 118:24",
+    "tigrinya_text": "እታ እግዚኣብሄር ዝገበራ መዓልቲ እዚኣ እያ፣ ብእኣ ንተሐጐስን ባህ ይበለናን።",
+    "tigrinya_ref": "ዳዊት 118፥24",
+    "scene_prompt": "the sun rising over a quiet village with birds in the sky",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-118.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "hebrews-11-1",
+    "english_text": "Now faith is the substance of things hoped for, the evidence of things not seen.",
+    "english_ref": "Hebrews 11:1",
+    "tigrinya_text": "እምነት ግና ነቲ ተስፋ ዚግበሮ ነገር ርግጽ ምግባር፡ ናይቲ ዘይርአ ነገር ምርዳእ እያ።",
+    "tigrinya_ref": "ዕብራውያን 11፥1",
+    "scene_prompt": "a farmer scattering seeds by hand over a freshly plowed field",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/hebrews/chapter-11.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "lamentations-3-23",
+    "english_text": "They are new every morning: great is thy faithfulness.",
+    "english_ref": "Lamentations 3:23",
+    "tigrinya_text": "ኣብ ጸጽባሕ ሓድሽ እዩ፡ እሙን ምዃንካ ዓብዪ እዩ።",
+    "tigrinya_ref": "ድጒዓ ኤርምያስ 3፥23",
+    "scene_prompt": "morning sun rising over gentle hills with dew on the grass",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/lamentations/chapter-3.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-34-8",
+    "english_text": "O taste and see that the Lord is good: blessed is the man that trusteth in him.",
+    "english_ref": "Psalm 34:8",
+    "tigrinya_text": "እግዚኣብሄር ሰናይ ምዃኑ ጥዐሙን ርአዩን፣ ኣብኡ ዚውከል ሰብ ብጹእ እዩ።",
+    "tigrinya_ref": "ዳዊት 34፥8",
+    "scene_prompt": "a basket of bread and a bunch of grapes on a rustic wooden table",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-34.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "john-8-12",
+    "english_text": "Then spake Jesus again unto them, saying, I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.",
+    "english_ref": "John 8:12",
+    "tigrinya_text": "ሽዑ ኢየሱስ፡ ኣነ ብርሃን ዓለም እየ። እቲ ዚስዕበኒ ብርሃን ህይወት ኪረክብ እምበር፡ ብጸልማት ኣይኪኸይድን እዩ፡ ኢሉ ኸም ብሓድሽ ተዛረቦም።",
+    "tigrinya_ref": "ወ. ዮሐንስ 8፥12",
+    "scene_prompt": "a single candle glowing in a dark stone room",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/john/chapter-8.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "romans-5-8",
+    "english_text": "But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us.",
+    "english_ref": "Romans 5:8",
+    "tigrinya_text": "ግናኸ ንሕና ገና ሓጥኣን ከሎና፡ ክርስቶስ ኣብ ክንዳና ሞይቱ እዩ እሞ፡ ኣምላኽ እታ ፍቕሩ ንኣና በዚ የርኢ ኣሎ።",
+    "tigrinya_ref": "ሮሜ 5፥8",
+    "scene_prompt": "three crosses on a distant hill under a dramatic cloudy sky",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/romans/chapter-5.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "galatians-5-22",
+    "english_text": "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith,",
+    "english_ref": "Galatians 5:22",
+    "tigrinya_text": "እቲ ፍረ መንፈስ ግና ፍቕሪ፡ ሓጐስ፡ ዕርቂ፡ ዓቕሊ፡ ለውሃት፡ ሕያውነት፡ እምነት፡ ህድኣት፡ ይአኽለኒ ምባል እዩ።",
+    "tigrinya_ref": "ገላትያ 5፥22",
+    "scene_prompt": "a grapevine heavy with ripe clusters of grapes",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/galatians/chapter-5.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "1-corinthians-13-4",
+    "english_text": "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up,",
+    "english_ref": "1 Corinthians 13:4",
+    "tigrinya_text": "ፍቕሪ ዓቃል እያ፡ ፍቕሪ ለዋህ እያ፡ ፍቕሪ ኣይትቐንእን፡ ፍቕሪ ኣይትጀሃርን ኣይትንፋሕን፡",
+    "tigrinya_ref": "1ይ ቆሮንቶስ 13፥4",
+    "scene_prompt": "two hands gently clasped together",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/1-corinthians/chapter-13.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-37-4",
+    "english_text": "Delight thyself also in the Lord; and he shall give thee the desires of thine heart.",
+    "english_ref": "Psalm 37:4",
+    "tigrinya_text": "ብእግዚኣብሄርውን ተሐጐስ፣ ልብኻ ዚደልዮ ንሱ ኺህበካ እዩ።",
+    "tigrinya_ref": "ዳዊት 37፥4",
+    "scene_prompt": "a person sitting peacefully in a garden of flowers",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-37.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "john-11-25",
+    "english_text": "Jesus said unto her, I am the resurrection, and the life: he that believeth in me, though he were dead, yet shall he live:",
+    "english_ref": "John 11:25",
+    "tigrinya_text": "ኢየሱስ ከኣ፡ ትንሳኤን ህይወትን ኣነ እየ። እቲ ብኣይ ዝኣምን እንተ ሞተ እኳ፡ ብህይወት ኪነብር እዩ።",
+    "tigrinya_ref": "ወ. ዮሐንስ 11፥25",
+    "scene_prompt": "an empty rock tomb with the large round stone rolled away",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/john/chapter-11.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-23-4",
+    "english_text": "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+    "english_ref": "Psalm 23:4",
+    "tigrinya_text": "በትርኻን ምርኵስካን የጸናንዓኒ እዩ፣ ንስኻ ምሳይ ኢኻ እሞ፣ ብርባርባ ድነ ሞት እኳ እንተ ኸድኩ፣ ክፉእ ኣይፈርህን እየ።",
+    "tigrinya_ref": "ዳዊት 23፥4",
+    "scene_prompt": "a shepherd with his staff leading sheep through a deep shadowy valley",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-23.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "isaiah-26-3",
+    "english_text": "Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.",
+    "english_ref": "Isaiah 26:3",
+    "tigrinya_text": "ነቲ ጽኑዕ ዝሃቀናኡ:ኣባኻ ስለ እተማሕጸነ፡ ብሰላም እወ ብሰላም ትሕልዎ።",
+    "tigrinya_ref": "ኢሳይያስ 26፥3",
+    "scene_prompt": "a perfectly calm lake reflecting the mountains around it",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/isaiah/chapter-26.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-91-4",
+    "english_text": "He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler.",
+    "english_ref": "Psalm 91:4",
+    "tigrinya_text": "ብግልግሌኡ ኼጐልብበካ፣ አብ ትሕቲ አኽናፉ ኸኣ መጸግዒ ኽትረክብ ኢኻ፣ ሓቁ ዋልታን ጸግዕን እዩ።",
+    "tigrinya_ref": "ዳዊት 91፥4",
+    "scene_prompt": "a mother hen sheltering her chicks under her wings",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-91.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "nahum-1-7",
+    "english_text": "The Lord is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
+    "english_ref": "Nahum 1:7",
+    "tigrinya_text": "እግዚኣብሄር ሰናይ እዩ፣ ብመዓልቲ ጸበባ ዕርዲ እዩ፣ ነቶም ኣብኡ እተማዕቈቡ ድማ ይፈልጦም እዩ።",
+    "tigrinya_ref": "ናሆም 1፥7",
+    "scene_prompt": "a strong stone stronghold on a cliff while a storm passes",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/nahum/chapter-1.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-55-22",
+    "english_text": "Cast thy burden upon the Lord, and he shall sustain thee: he shall never suffer the righteous to be moved.",
+    "english_ref": "Psalm 55:22",
+    "tigrinya_text": "ጾርካ ናብ እግዚኣብሄር ደርብዮ፣ ንሱ ኺድግፈካ እዩ። ንጻድቕ ሰንከልከል ኪብል ከቶ ኣይሐድጎን።",
+    "tigrinya_ref": "ዳዊት 55፥22",
+    "scene_prompt": "a traveler setting down a heavy sack at the foot of a wooden cross",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-55.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "1-peter-5-7",
+    "english_text": "Casting all your care upon him; for he careth for you.",
+    "english_ref": "1 Peter 5:7",
+    "tigrinya_text": "ንሱ ይሓልየልኩም እዩ እሞ፡ ንዅሉ ሓልዮትኩም ኣብኡ ኣውድቕዎ።",
+    "tigrinya_ref": "1ይ ጴጥሮስ 5፥7",
+    "scene_prompt": "small sparrows resting together on a branch",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/1-peter/chapter-5.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "matthew-7-7-8",
+    "english_text": "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you: For every one that asketh receiveth; and he that seeketh findeth; and to him that knocketh it shall be opened.",
+    "english_ref": "Matthew 7:7-8",
+    "tigrinya_text": "ዝለመነ ኹሉ ይቕበል እዩ፡ ዝደለየ ድማ ይረክብ፡ ማዕጾ ዃሕዃሕ ንዘበለውን ይኽፈተሉ እዩ እሞ፡ ለምኑ ይውሀበኩም። ድለዩ፡ ትረኽቡ። ማዕጾ ዃሕኳሕ ኣብሉ፡ ይኽፈተልኩም እዩ።",
+    "tigrinya_ref": "ማቴዎስ 7፥7-8",
+    "scene_prompt": "a hand knocking on an old wooden door",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/matthew/chapter-7.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "luke-1-36-37",
+    "english_text": "And, behold, thy cousin Elisabeth, she hath also conceived a son in her old age: and this is the sixth month with her, who was called barren. For with God nothing shall be impossible.",
+    "english_ref": "Luke 1:36-37",
+    "tigrinya_text": "እንሆ፡ ኤልሳቤጥ እታ ዘመድኪ እኳ፡- ንኣምላኽ ዚሰኣኖ ነገር ስለ ዜልቦ፡ - ኣብ እርግናኣ ወዲ ጠኒሳ ኣላ፡ ነታ መኻን እትብሃል እዚ ወርሒ እዚ ሳድሳያ እዩ፡ በላ።",
+    "tigrinya_ref": "ሉቃስ 1፥36-37",
+    "scene_prompt": "an angel appearing to a young woman in a simple stone room",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/luke/chapter-1.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-100-4",
+    "english_text": "Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.",
+    "english_ref": "Psalm 100:4",
+    "tigrinya_text": "አብ ደጌታቱ ብምስጋና፣ አብ አጸዱውን ብውዳሴ እተዉ፣ አመስግንዎ ንስሙ ኸኣ ባርኹ።",
+    "tigrinya_ref": "ዳዊት 100፥4",
+    "scene_prompt": "people joyfully walking through the gates of an ancient temple",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-100.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "proverbs-16-3",
+    "english_text": "Commit thy works unto the Lord, and thy thoughts shall be established.",
+    "english_ref": "Proverbs 16:3",
+    "tigrinya_text": "ተግባርካ ንእግዚኣብሄር ወፍዮ፡ሽዑ ሓሳባትካ ኪቀውም እዩ።",
+    "tigrinya_ref": "ምሳሌ 16፥3",
+    "scene_prompt": "a carpenter working carefully at a wooden workbench",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/proverbs/chapter-16.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-150-6",
+    "english_text": "Let every thing that hath breath praise the Lord. Praise ye the Lord.",
+    "english_ref": "Psalm 150:6",
+    "tigrinya_text": "ትንፋስ ዘለዎ ዅሉ ንእግዚኣብሄር የመስግኖ። ሃሌሉያ።",
+    "tigrinya_ref": "ዳዊት 150፥6",
+    "scene_prompt": "a traditional lyre harp, a hand drum and a long flute resting together",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-150.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-95-1",
+    "english_text": "O come, let us sing unto the Lord: let us make a joyful noise to the rock of our salvation.",
+    "english_ref": "Psalm 95:1",
+    "tigrinya_text": "ንዑ፣ ንእግዚኣብሄር ብሓጐስ ንዘምር፣ ንኸውሒ ምድሓንና እልል ንበለሉ፣",
+    "tigrinya_ref": "ዳዊት 95፥1",
+    "scene_prompt": "a group of people singing together on a hillside",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-95.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "zephaniah-3-16-17",
+    "english_text": "In that day it shall be said to Jerusalem, Fear thou not: and to Zion, Let not thine hands be slack. The Lord thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+    "english_ref": "Zephaniah 3:16-17",
+    "tigrinya_text": "- በታ መዓልቲ እቲኣ ንየሩሳሌ፣ ዎ ጽዮን ኣይትፍርሂ፣ ኣእዳውኪ ኣይተሐለላ፣ ኣግዚኣብሄር ኣምላኽኪ ኣብ ማእከልኪ ዚድሕን ጅግና እዩ፣ ብኣኺ ሓጐስ ኪሕጐስ እዩ፣ ብፍቕሩ ኺሀድእ፣ ብኣኺ እልል እናበለ ኺሕጐስ እዩ፣ ኪብልዋ እዮም።",
+    "tigrinya_ref": "ሶፎንያስ 3፥16-17",
+    "scene_prompt": "a father gently holding his sleeping child",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/zephaniah/chapter-3.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "isaiah-43-2",
+    "english_text": "When thou passest through the waters, I will be with thee; and through the rivers, they shall not overflow thee: when thou walkest through the fire, thou shalt not be burned; neither shall the flame kindle upon thee.",
+    "english_ref": "Isaiah 43:2",
+    "tigrinya_text": "ብማያት ምስ እትሐልፍ፡ ምሳኻ ክኸውን እየ፡ ብውሒዝ ምስ እትሳገር ከኣ፡ ኣይኬጥሕለካን እዩ፡ ብሓዊ ምስ እትኸይድ፡ ኣይክትነድድን ኢኻ፡ ሃልሃልታውን ኣይኪህምዀካን እዩ።",
+    "tigrinya_ref": "ኢሳይያስ 43፥2",
+    "scene_prompt": "a person walking safely through a shallow rushing river",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/isaiah/chapter-43.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "romans-15-13",
+    "english_text": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.",
+    "english_ref": "Romans 15:13",
+    "tigrinya_text": "ብሓይሊ መንፈስ ቅዱስ ኣዚኹም ብተስፋ ምእንቲ ኽትህብትሙስ፡ እቲ ናይ ተስፋ ኣምላኽ ኲሉ ሓጐስን ሰላምን ዘበለ ብእምነት ይምላእኩም።",
+    "tigrinya_ref": "ሮሜ 15፥13",
+    "scene_prompt": "a dove flying low over still water",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/romans/chapter-15.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "john-16-33",
+    "english_text": "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world.",
+    "english_ref": "John 16:33",
+    "tigrinya_text": "ኣባይ ሰላም ምእንቲ ኽትረኽቡ፡ እዚ ነገርኩኹም። ኣብ ዓለም ጸበባ አለኩም። ግናኸ ኣጆኹም፡ ኣነ ንዓለም ስዒረያ እየ፡ ኢሉ መለሰሎም።",
+    "tigrinya_ref": "ወ. ዮሐንስ 16፥33",
+    "scene_prompt": "a small fishing boat on calm water after a storm, clouds parting",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/john/chapter-16.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-139-14",
+    "english_text": "I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
+    "english_ref": "Psalm 139:14",
+    "tigrinya_text": "መስተንክርን ድንቅን ጌርካ ፈጢርካኒ ኢኻ እሞ፣ ከማስወካ እየ፣ ግብርታትካ መስተንክር እዩ፣ ነፍሰይውን ኣጸቢቓ ትፈልጦ።",
+    "tigrinya_ref": "ዳዊት 139፥14",
+    "scene_prompt": "a mother tenderly holding her newborn baby",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-139.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "2-timothy-1-6-7",
+    "english_text": "Wherefore I put thee in remembrance that thou stir up the gift of God, which is in thee by the putting on of my hands. For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.",
+    "english_ref": "2 Timothy 1:6-7",
+    "tigrinya_text": "በዚ ምኽንያት እዚ፡ ኣምላኽሲ መንፈስ ሓይልን ፍቕርን ቅጽዓትን እምበር፡ መንፈስ ፍርሃት ኣይሃበናን እሞ፡ ነቲ ብምንባር ኢደይ ኣባኻ ዘሎ ውህበት ኣምላኽ ክትሕድሶ ኤዘክረካ አሎኹ።",
+    "tigrinya_ref": "2ይ ጢሞቴዎስ 1፥6-7",
+    "scene_prompt": "a lion resting calmly on a rock",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/2-timothy/chapter-1.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "hebrews-13-8",
+    "english_text": "Jesus Christ the same yesterday, and to day, and for ever.",
+    "english_ref": "Hebrews 13:8",
+    "tigrinya_text": "ኢየሱስ ክርስቶስ ትማልን ሎምን ንዘለኣለም ንሱ እዩ።",
+    "tigrinya_ref": "ዕብራውያን 13፥8",
+    "scene_prompt": "an ancient olive tree with a thick twisted trunk and deep roots",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/hebrews/chapter-13.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "james-1-17",
+    "english_text": "Every good gift and every perfect gift is from above, and cometh down from the Father of lights, with whom is no variableness, neither shadow of turning.",
+    "english_ref": "James 1:17",
+    "tigrinya_text": "ጽቡቕ ውህበትን ምሉእ ውህበትን ካብ ላዕሊ እዩ፡ ካብቲ ለውጢ ወይስ ምምልላስ ጽላሎት ዜብሉ ኣቦ ብርሃናት እዩ ዚወርድ።",
+    "tigrinya_ref": "ያዕቆብ 1፥17",
+    "scene_prompt": "beams of light pouring through clouds onto wide fields",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/james/chapter-1.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "1-john-4-19",
+    "english_text": "We love him, because he first loved us.",
+    "english_ref": "1 John 4:19",
+    "tigrinya_text": "ንሱ ቅድም ኣፍቂሩና እዩ እሞ፡ ንሕናውን ነፍቅር ኢና።",
+    "tigrinya_ref": "1ይ ዮሐንስ 4፥19",
+    "scene_prompt": "an old father embracing his returning son on a country road",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/1-john/chapter-4.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-103-12",
+    "english_text": "As far as the east is from the west, so far hath he removed our transgressions from us.",
+    "english_ref": "Psalm 103:12",
+    "tigrinya_text": "ምብራቕ ካብ ምዕራብ ከም ዚርሕቕ፣ ከምኡ ንኣበሳና ኻባና ኣርሓቖ።",
+    "tigrinya_ref": "ዳዊት 103፥12",
+    "scene_prompt": "a wide sea stretching to the horizon under an open sky",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-103.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "matthew-19-26",
+    "english_text": "But Jesus beheld them, and said unto them, With men this is impossible; but with God all things are possible.",
+    "english_ref": "Matthew 19:26",
+    "tigrinya_text": "ኢየሱስ ጠመቶም፡ እዚ ንሰብ ኣይከአሎን፡ ንኣምላኽ ግና ኵሉ ይከአሎ እዩ፡ በሎም።",
+    "tigrinya_ref": "ማቴዎስ 19፥26",
+    "scene_prompt": "a camel standing beside a narrow gate in an old city wall",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/matthew/chapter-19.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-19-1",
+    "english_text": "The heavens declare the glory of God; and the firmament sheweth his handywork.",
+    "english_ref": "Psalm 19:1",
+    "tigrinya_text": "ሰማያት ክብሪ ኣምላኽ የዘንትዉ፣ ጠፈር ከኣ ግብሪ ኣእዳዉ የውሪ።",
+    "tigrinya_ref": "ዳዊት 19፥1",
+    "scene_prompt": "a starry night sky over quiet hills",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-19.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "genesis-1-1",
+    "english_text": "In the beginning God created the heaven and the earth.",
+    "english_ref": "Genesis 1:1",
+    "tigrinya_text": "ኣምላኽ ብመጀመርታ ሰማይን ምድርን ፈጠረ።",
+    "tigrinya_ref": "ዘፍጥረት 1፥1",
+    "scene_prompt": "light breaking over waters and newly formed land",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/genesis/chapter-1.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "ecclesiastes-3-1",
+    "english_text": "To every thing there is a season, and a time to every purpose under the heaven:",
+    "english_ref": "Ecclesiastes 3:1",
+    "tigrinya_text": "ንኹሉ ዘዘመኑ ኣለዎ፡ ኣብ ትሕቲ ሰማይ ንዘሎ ኹሉ ነገር ከአ ገጊዚኡ ኣለዎ።",
+    "tigrinya_ref": "መክብብ 3፥1",
+    "scene_prompt": "a single tree in a field with blossoms on one side and bare branches on the other",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/ecclesiastes/chapter-3.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-62-1",
+    "english_text": "Truly my soul waiteth upon God: from him cometh my salvation.",
+    "english_ref": "Psalm 62:1",
+    "tigrinya_text": "ነፍሰይ ኣብ ኣምላኽ ጥራይ ሃዲኣ ትጽበ፣ ምድሓነይ ካብኡ ይመጽእ ኣሎ።",
+    "tigrinya_ref": "ዳዊት 62፥1",
+    "scene_prompt": "a person sitting quietly on a rock at dawn",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-62.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-4-8",
+    "english_text": "I will both lay me down in peace, and sleep: for thou, Lord, only makest me dwell in safety.",
+    "english_ref": "Psalm 4:8",
+    "tigrinya_text": "ዎ እግዚኣብሄር፣ ንስኻ በይንኻ ኢኻ ብደሓን እተሕድረኒ እሞ፣ ብሰላም እግምሰስን እድቅስን ኣሎኹ።",
+    "tigrinya_ref": "ዳዊት 4፥8",
+    "scene_prompt": "a small house in a peaceful valley under the moon",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-4.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-16-8",
+    "english_text": "I have set the Lord always before me: because he is at my right hand, I shall not be moved.",
+    "english_ref": "Psalm 16:8",
+    "tigrinya_text": "ንእግዚኣብሄር ኵሉ ጊዜ ኣብ ቅድመይ ገይረዮ፣ ብየማነይ ስለ ዝዀነ፣ ኣይክናወጽን እየ።",
+    "tigrinya_ref": "ዳዊት 16፥8",
+    "scene_prompt": "a person standing firmly on a rock while wind blows the grass",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-16.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-28-7",
+    "english_text": "The Lord is my strength and my shield; my heart trusted in him, and I am helped: therefore my heart greatly rejoiceth; and with my song will I praise him.",
+    "english_ref": "Psalm 28:7",
+    "tigrinya_text": "እግዚኣብሄርሲ ሓይለይን ዋልታይን እዩ፣ ልበይ ብእኡ ተወኪሉ፣ ኣነውን ተረዲኤ፣ ስለዚ ልበይ ይፍሳህ ኣሎ፣ ብመዝሙረይ ድማ ክውድሶ እየ።",
+    "tigrinya_ref": "ዳዊት 28፥7",
+    "scene_prompt": "a shield and a lyre harp resting against a stone wall",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-28.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-32-8",
+    "english_text": "I will instruct thee and teach thee in the way which thou shalt go: I will guide thee with mine eye.",
+    "english_ref": "Psalm 32:8",
+    "tigrinya_text": "ኣነ ኽምህረካ፣ ነታ እትኸደላ መገዲ ድማ ከርእየካ እየ፣ ዓይነይ ናባኻ ኣቢለውን ክመኽረካ እየ።",
+    "tigrinya_ref": "ዳዊት 32፥8",
+    "scene_prompt": "an elder guiding a child along a mountain trail",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-32.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "psalm-145-18",
+    "english_text": "The Lord is nigh unto all them that call upon him, to all that call upon him in truth.",
+    "english_ref": "Psalm 145:18",
+    "tigrinya_text": "እግዚኣብሄር ንዚጽውዕዎ ዅሎም፣ ብሓቂ ንዚጽውዕዎ ዅሎም ቀረባኦም እዩ።",
+    "tigrinya_ref": "ዳዊት 145፥18",
+    "scene_prompt": "a person praying alone on a hilltop at sunrise",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-145.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
+  },
+  {
+    "id": "galatians-6-9",
+    "english_text": "And let us not be weary in well doing: for in due season we shall reap, if we faint not.",
+    "english_ref": "Galatians 6:9",
+    "tigrinya_text": "እንተ ዘይተጸልኣናስ፡ ብጊዜኡ ክንዓጽድ ኢና እሞ፡ ንሰናይ ግብሪ ኣይንሰልኪ።",
+    "tigrinya_ref": "ገላትያ 6፥9",
+    "scene_prompt": "harvesters gathering sheaves of wheat in a ripe field",
+    "posted": false,
+    "posted_date": null,
+    "source": {
+      "tigrinya": "https://www.bible.club/tigrigna/galatians/chapter-6.html",
+      "english": "King James Version (public domain), bible-api.com"
+    }
   }
 ]

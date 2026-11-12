@@ -59,7 +59,7 @@ def test_prepare_then_publish(sandbox, monkeypatch):
     assert main.main(["publish"]) == 0
     url, caption = FakeIG.posted[0]
     assert url == f"https://example.test/{pending['image_path']}"
-    v = verses.load()[0]
+    v = next(x for x in verses.load() if x["id"] == pending["verse_id"])
     assert caption.startswith(v["tigrinya_text"])
     assert v["posted"] is True
 
@@ -79,7 +79,7 @@ def test_dry_run_never_posts(sandbox, monkeypatch):
     assert main.main(["prepare", "--force", "--placeholder", "--dry-run"]) == 0
     assert not (sandbox / "state" / "pending.json").exists()
     assert list((sandbox / "output").glob("dry-run-*.jpg"))
-    assert verses.load()[0]["posted"] is False
+    assert sum(1 for x in verses.load() if x["posted"]) == 1  # only the already-posted Psalm 23:1
 
 
 def test_preview_then_daily_uses_approved_poster(sandbox, monkeypatch):

@@ -91,9 +91,10 @@ def test_caption_tigrinya_first_and_exact(v):
 
 
 def test_missing_tigrinya_is_skipped():
-    good = dict(ALL[0], id="good")
-    no_tig = dict(ALL[0], id="no-tig", tigrinya_text="")
-    latin = dict(ALL[0], id="latin", tigrinya_text="The Lord is my shepherd")
+    base = dict(ALL[0], posted=False)
+    good = dict(base, id="good")
+    no_tig = dict(base, id="no-tig", tigrinya_text="")
+    latin = dict(base, id="latin", tigrinya_text="The Lord is my shepherd")
     assert verses.next_verse([no_tig, latin, good])["id"] == "good"
     assert verses.next_verse([no_tig, latin]) is None
 

@@ -21,7 +21,16 @@ It runs on GitHub Actions. Your computer can be off.
 
 ---
 
-## Adding verses
+## Where the verses come from (automatic)
+
+The bot copies verses from published Bibles online. It never writes or translates Tigrinya itself.
+
+- **Tigrinya:** copied word for word from [bible.club](https://www.bible.club/tigrigna.html). It's the same Tigrinya Bible text as the verified ዳዊት 23፥1. The Tigrinya book name in the reference comes from the website's own heading.
+- **English:** King James Version (public domain), from bible-api.com.
+- **Which verses:** listed in `data/verse_plan.json`, each with a drawing idea. To add more, add references there (or ask Claude). The daily run adds plan verses to `verses.json` automatically whenever fewer than 14 are waiting.
+- **Safety checks:** both Bibles must number the chapter the same way. Where the Tigrinya Bible joins verses (e.g. ማቴዎስ 7፥7-8), both languages use the joined pair. The font must be able to draw every character, and the verse must fit on the poster. Anything that fails is skipped, never guessed.
+
+## Adding verses by hand
 
 Open `verses.json` (on GitHub: click the file, then the ✏️ pencil icon). Copy an entry, paste it after the last one, add a comma between entries, and change the values:
 
