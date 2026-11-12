@@ -38,10 +38,15 @@ jobs:
           PREVIEW_IMAGE_BASE: https://raw.githubusercontent.com/${{ github.repository }}/review/${{ github.run_id }}
         run: python -m bot.main preview --days ${{ inputs.days }}
 
-      - name: Open a pull request for your approval
+      - name: Download link for the posters
         if: steps.preview.outputs.count != '0'
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: preview-posters
+          path: docs/queue/
+
+      - name: Save them on a review branch (merge it to approve)
+        if: steps.preview.outputs.count != '0'
         run: |
           BRANCH="review/${{ github.run_id }}"
           git config user.name "mezmurfaith-bot"
@@ -50,6 +55,14 @@ jobs:
           git add docs/queue
           git commit -q -m "Posters waiting for approval"
           git push -q origin "$BRANCH"
-          gh pr create --base "${{ github.event.repository.default_branch }}" --head "$BRANCH" \
+          echo "Saved on branch $BRANCH"
+
+      - name: Open a pull request for your approval (only if GH_PAT is set)
+        if: steps.preview.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "No GH_PAT secret: skipping the pull request."; exit 0; fi
+          gh pr create --base "${{ github.event.repository.default_branch }}" --head "review/${{ github.run_id }}" \
             --title "Approve the next ${{ steps.preview.outputs.count }} verse posters" \
             --body-file state/preview.md
