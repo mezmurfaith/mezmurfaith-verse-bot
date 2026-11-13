@@ -3,3 +3,4 @@ fonttools==4.68.0
 requests==2.34.2
 openai==3.49.0
 pytest==9.2.0
+imageio-ffmpeg==0.8.1

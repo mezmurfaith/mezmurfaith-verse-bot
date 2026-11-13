@@ -443,6 +443,38 @@ def cmd_media_fields(args):
     return 0
 
 
+def cmd_test_reel(args):
+    """Safe test: upload a Reel with the mezmur to Instagram but do NOT publish it."""
+    from PIL import Image
+    from bot import reel
+    from bot.instagram import Instagram, InstagramError
+    cfg = load_config()
+    ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip(),
+                   cfg["instagram_api_version"])
+    ids = ig.mezmur_audio_ids()
+    print(f"Mezmur songs found on your Reels: {len(ids)}")
+    for aid in ids:
+        try:
+            a = ig.audio_info(aid)
+            print(f"   - {a.get('title')} — {a.get('display_artist') or a.get('ig_username')} "
+                  f"({int(a.get('duration_in_ms') or 0) // 1000}s) id={aid}")
+        except InstagramError as e:
+            print(f"   - id={aid} (details unavailable: {str(e)[:120]})")
+    if not ids:
+        return 1
+    poster = sorted(QUEUE.glob("*.jpg")) or sorted(POSTERS.glob("*.jpg"))
+    video = reel.make_video(Image.open(poster[-1]), OUTPUT / "test-reel.mp4", seconds=cfg.get("reel_seconds", 30))
+    print(f"Made test video from {poster[-1].name}")
+    try:
+        cid = ig.create_reel(video, "Test only. Not published.", audio_id=ids[0])
+        ig.wait_until_ready(cid)
+        print("Instagram accepted the Reel with the mezmur attached (status FINISHED). It was NOT published.")
+    except InstagramError as e:
+        print("Instagram did not accept it:", e)
+        return 1
+    return 0
+
+
 def cmd_import_verses(args):
     from bot.fetch_verses import import_verses
     waiting = sum(1 for v in verses.load() if not v.get("posted") and not verses.problems(v))
@@ -479,6 +511,7 @@ def main(argv=None):
     sa = sub.add_parser("search-audio")
     sa.add_argument("q", nargs="*")
     sa.add_argument("--probe", action="store_true", help="check whether each Reel's audio can be downloaded")
+    sub.add_parser("test-reel")
     mf = sub.add_parser("media-fields")
     mf.add_argument("--fields", required=True)
     iv = sub.add_parser("import-verses")
@@ -488,7 +521,7 @@ def main(argv=None):
     fn = {"validate": cmd_validate, "render": cmd_render, "prepare": cmd_prepare, "publish": cmd_publish,
           "preview": cmd_preview, "check-instagram": cmd_check_instagram, "refresh-token": cmd_refresh_token,
           "import-verses": cmd_import_verses, "search-audio": cmd_search_audio,
-          "media-fields": cmd_media_fields}[args.cmd]
+          "media-fields": cmd_media_fields, "test-reel": cmd_test_reel}[args.cmd]
     return fn(args)
 
 
