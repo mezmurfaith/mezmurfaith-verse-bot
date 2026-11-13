@@ -398,6 +398,18 @@ def cmd_search_audio(args):
         for m in media:
             cap = (m.get("caption") or "").replace("\n", " ")[:70]
             print(f"   - {m.get('timestamp', '')[:10]} {m.get('media_product_type')}/{m.get('media_type')} {m.get('permalink')} | {cap}")
+            if m.get("media_product_type") == "REELS" and args.probe:
+                import subprocess, tempfile
+                import requests as rq
+                url = ig._call("GET", m["id"], params={"fields": "media_url"}).get("media_url")
+                if not url:
+                    print("       video download: NOT available (Instagram hides it, e.g. licensed music)")
+                    continue
+                with tempfile.NamedTemporaryFile(suffix=".mp4") as f:
+                    f.write(rq.get(url, timeout=60).content); f.flush()
+                    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type:format=duration",
+                                          "-of", "csv=p=0", f.name], capture_output=True, text=True).stdout.split()
+                    print(f"       video download: OK, streams/duration: {' '.join(out)}")
     except InstagramError as e:
         print("Could not list your posts:", e)
     for q in args.q or [None]:
@@ -449,6 +461,7 @@ def main(argv=None):
     rt.add_argument("--out", required=True)
     sa = sub.add_parser("search-audio")
     sa.add_argument("q", nargs="*")
+    sa.add_argument("--probe", action="store_true", help="check whether each Reel's audio can be downloaded")
     iv = sub.add_parser("import-verses")
     iv.add_argument("--limit", type=int, help="add at most this many")
     iv.add_argument("--min-waiting", type=int, help="only import if fewer than this many verses are waiting")

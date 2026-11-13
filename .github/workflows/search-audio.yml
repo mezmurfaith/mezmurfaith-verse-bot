@@ -26,4 +26,4 @@ jobs:
           QUERIES: ${{ inputs.queries }}
         run: |
           IFS=',' read -ra Q <<< "$QUERIES"
-          python -m bot.main search-audio "${Q[@]}" ""
+          python -m bot.main search-audio --probe "${Q[@]}"

@@ -76,10 +76,11 @@ def test_prepare_then_publish(sandbox, monkeypatch):
 def test_dry_run_never_posts(sandbox, monkeypatch):
     monkeypatch.setattr(instagram, "Instagram", FakeIG)
     FakeIG.posted.clear()
+    before = sum(1 for x in verses.load() if x["posted"])
     assert main.main(["prepare", "--force", "--placeholder", "--dry-run"]) == 0
     assert not (sandbox / "state" / "pending.json").exists()
     assert list((sandbox / "output").glob("dry-run-*.jpg"))
-    assert sum(1 for x in verses.load() if x["posted"]) == 1  # only the already-posted Psalm 23:1
+    assert sum(1 for x in verses.load() if x["posted"]) == before  # a test run never marks anything posted
 
 
 def test_preview_then_daily_uses_approved_poster(sandbox, monkeypatch):
