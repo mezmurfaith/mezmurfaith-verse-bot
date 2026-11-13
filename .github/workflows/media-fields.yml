@@ -1,0 +1,24 @@
+name: Inspect Reels (read-only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      fields:
+        description: "Fields to try, comma-separated"
+        default: "media_audio_type,audio,audio_id,music,original_audio,audio_name,is_shared_to_feed"
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -q -r requirements.txt
+      - env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: python -m bot.main media-fields --fields "${{ inputs.fields }}"

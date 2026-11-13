@@ -426,6 +426,23 @@ def cmd_search_audio(args):
     return 0
 
 
+def cmd_media_fields(args):
+    """Read-only: try extra fields on this account's Reels (to find each Reel's audio)."""
+    from bot.instagram import Instagram, InstagramError
+    cfg = load_config()
+    ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip(),
+                   cfg["instagram_api_version"])
+    reels = [m for m in ig.my_media() if m.get("media_product_type") == "REELS"][:2]
+    for m in reels:
+        print("Reel", m.get("permalink"))
+        for f in args.fields.split(","):
+            try:
+                print(f"   {f}: {json.dumps(ig._call('GET', m['id'], params={'fields': f}).get(f), ensure_ascii=False)[:300]}")
+            except InstagramError as e:
+                print(f"   {f}: (error) {str(e)[:160]}")
+    return 0
+
+
 def cmd_import_verses(args):
     from bot.fetch_verses import import_verses
     waiting = sum(1 for v in verses.load() if not v.get("posted") and not verses.problems(v))
@@ -462,13 +479,16 @@ def main(argv=None):
     sa = sub.add_parser("search-audio")
     sa.add_argument("q", nargs="*")
     sa.add_argument("--probe", action="store_true", help="check whether each Reel's audio can be downloaded")
+    mf = sub.add_parser("media-fields")
+    mf.add_argument("--fields", required=True)
     iv = sub.add_parser("import-verses")
     iv.add_argument("--limit", type=int, help="add at most this many")
     iv.add_argument("--min-waiting", type=int, help="only import if fewer than this many verses are waiting")
     args = p.parse_args(argv)
     fn = {"validate": cmd_validate, "render": cmd_render, "prepare": cmd_prepare, "publish": cmd_publish,
           "preview": cmd_preview, "check-instagram": cmd_check_instagram, "refresh-token": cmd_refresh_token,
-          "import-verses": cmd_import_verses, "search-audio": cmd_search_audio}[args.cmd]
+          "import-verses": cmd_import_verses, "search-audio": cmd_search_audio,
+          "media-fields": cmd_media_fields}[args.cmd]
     return fn(args)
 
 
