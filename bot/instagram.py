@@ -73,6 +73,11 @@ class Instagram:
             params["search_query"] = query
         return self._call("GET", "ig_audio", params=params).get("audio", [])
 
+    def my_media(self, limit: int = 50) -> list[dict]:
+        """Posts and Reels on this account, newest first."""
+        fields = "id,media_type,media_product_type,caption,permalink,timestamp"
+        return self._call("GET", f"{self.user_id}/media", params={"fields": fields, "limit": limit}).get("data", [])
+
     def token_expiry(self) -> int | None:
         """Unix time the token expires; 0 = never; None = unknown."""
         if not self.unified:

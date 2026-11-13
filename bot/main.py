@@ -392,6 +392,14 @@ def cmd_search_audio(args):
     cfg = load_config()
     ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip(),
                    cfg["instagram_api_version"])
+    try:
+        media = ig.my_media()
+        print(f"Your account has {len(media)} recent posts/Reels:")
+        for m in media:
+            cap = (m.get("caption") or "").replace("\n", " ")[:70]
+            print(f"   - {m.get('timestamp', '')[:10]} {m.get('media_product_type')}/{m.get('media_type')} {m.get('permalink')} | {cap}")
+    except InstagramError as e:
+        print("Could not list your posts:", e)
     for q in args.q or [None]:
         for kind in ("music", "original_sound"):
             try:
