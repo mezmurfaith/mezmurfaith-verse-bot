@@ -223,6 +223,37 @@ def cmd_prepare(args):
     return 0
 
 
+def pick_mezmur(ig) -> dict:
+    """The mezmur from this account's own Reels that was used least recently."""
+    ids = ig.mezmur_audio_ids()
+    if not ids:
+        raise RuntimeError("No mezmur found on your Reels (no Reel uses a song from Instagram's music library).")
+    last_used = {}
+    for h in reversed(history()):  # oldest → newest, so newer dates win
+        if h.get("audio_id"):
+            last_used[h["audio_id"]] = h["date"]
+    aid = min(ids, key=lambda i: (last_used.get(i, ""), ids.index(i)))
+    try:
+        info = ig.audio_info(aid)
+    except Exception:
+        info = {}
+    return {"id": aid, "title": info.get("title")}
+
+
+def post_reel(ig, pending, alt, cfg):
+    """Verse poster as a 9:16 Reel with a mezmur from the account's own Reels."""
+    from PIL import Image
+    from bot import reel
+    audio = pick_mezmur(ig)
+    video = reel.make_video(Image.open(ROOT / pending["image_path"]), STATE / "reel.mp4",
+                            seconds=cfg.get("reel_seconds", 30))
+    cid = ig.create_reel(video, pending["caption"], audio_id=audio["id"], alt_text=alt)
+    ig.wait_until_ready(cid, timeout=600)
+    media_id = ig.publish(cid)
+    log.info("Posted Reel with mezmur %s (%s)", audio.get("title"), audio["id"])
+    return media_id, audio
+
+
 def cmd_publish(args):
     from bot.instagram import Instagram, InstagramError, wait_until_public
 
@@ -236,20 +267,33 @@ def cmd_publish(args):
         return 0
     v = next(x for x in verses.load() if x["id"] == pending["verse_id"])
     url = f"{public_base_url(cfg)}/{pending['image_path']}"
+    alt = f"{v['english_text']} — {v['english_ref']}. Charcoal drawing: {v['scene_prompt']}."
     try:
-        wait_until_public(url)
         ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", ""), os.environ.get("IG_USER_ID", ""), cfg["instagram_api_version"])
-        cid = ig.create_image_container(
-            url, pending["caption"],
-            alt_text=f"{v['english_text']} — {v['english_ref']}. Charcoal drawing: {v['scene_prompt']}.",
-            ai_generated=cfg.get("label_ai_generated", False),
-        )
-        ig.wait_until_ready(cid)
-        media_id = ig.publish(cid)
     except InstagramError as e:
-        notify(f"Instagram post failed on {pending['date']}", f"{e}\n\nThe poster is saved in `{pending['image_path']}`. "
-               "If the token expired, follow 'Get a new Instagram token' in the README.")
+        notify(f"Instagram post failed on {pending['date']}", str(e))
         return 1
+
+    media_id, fmt, audio = None, "image", None
+    if cfg.get("post_as_reel"):
+        try:
+            media_id, audio = post_reel(ig, pending, alt, cfg)
+            fmt = "reel"
+        except Exception as e:  # never miss a day: fall back to the picture post
+            log.warning("Reel failed, posting the picture instead: %s", e)
+            notify(f"Reel with mezmur failed on {pending['date']} — posted the picture instead",
+                   f"{e}\n\nToday's verse was still posted, as a picture without music.")
+    if media_id is None:
+        try:
+            wait_until_public(url)
+            cid = ig.create_image_container(url, pending["caption"], alt_text=alt,
+                                            ai_generated=cfg.get("label_ai_generated", False))
+            ig.wait_until_ready(cid)
+            media_id = ig.publish(cid)
+        except InstagramError as e:
+            notify(f"Instagram post failed on {pending['date']}", f"{e}\n\nThe poster is saved in `{pending['image_path']}`. "
+                   "If the token expired, follow 'Get a new Instagram token' in the README.")
+            return 1
     link = ig.permalink(media_id)
     log.info("Posted! %s", link or media_id)
 
@@ -259,7 +303,8 @@ def cmd_publish(args):
         "date": pending["date"], "id": v["id"],
         "english_text": v["english_text"], "english_ref": v["english_ref"],
         "tigrinya_text": v["tigrinya_text"], "tigrinya_ref": v["tigrinya_ref"],
-        "image_url": url, "instagram_url": link,
+        "image_url": url, "instagram_url": link, "format": fmt,
+        **({"audio_id": audio["id"], "audio_title": audio.get("title")} if audio else {}),
     }
     write_json(API / "history.json", [record] + history())
     write_json(API / "today.json", record)

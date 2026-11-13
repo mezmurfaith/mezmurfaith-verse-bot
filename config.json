@@ -18,5 +18,7 @@
   "require_approval": false,
   "label_ai_generated": false,
   "instagram_api_version": "v27.0",
-  "public_base_url": ""
+  "public_base_url": "",
+  "post_as_reel": true,
+  "reel_seconds": 30
 }
