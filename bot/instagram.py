@@ -65,6 +65,14 @@ class Instagram:
             data = data["data"][0]
         return [{"id": str(data.get("user_id")), "username": data.get("username")}]
 
+    def search_audio(self, query: str | None = None, audio_type: str = "music") -> list[dict]:
+        """Instagram audio authorized for third-party use (Unified/Facebook login only).
+        No query = trending audio."""
+        params = {"audio_type": audio_type, "user_id": self.user_id}
+        if query:
+            params["search_query"] = query
+        return self._call("GET", "ig_audio", params=params).get("audio", [])
+
     def token_expiry(self) -> int | None:
         """Unix time the token expires; 0 = never; None = unknown."""
         if not self.unified:

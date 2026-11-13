@@ -387,6 +387,25 @@ def cmd_refresh_token(args):
     return 0
 
 
+def cmd_search_audio(args):
+    from bot.instagram import Instagram, InstagramError
+    cfg = load_config()
+    ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip(),
+                   cfg["instagram_api_version"])
+    for q in args.q or [None]:
+        for kind in ("music", "original_sound"):
+            try:
+                found = ig.search_audio(q, kind)
+            except InstagramError as e:
+                print(f"[{kind}] search {q!r} failed: {e}")
+                continue
+            print(f"[{kind}] search {q or '(trending)'!r}: {len(found)} results")
+            for a in found[:10]:
+                who = a.get("display_artist") or a.get("ig_username") or "?"
+                print(f"   - {a.get('title')} — {who} ({int(a.get('duration_in_ms') or 0) // 1000}s) id={a.get('audio_id')}")
+    return 0
+
+
 def cmd_import_verses(args):
     from bot.fetch_verses import import_verses
     waiting = sum(1 for v in verses.load() if not v.get("posted") and not verses.problems(v))
@@ -420,13 +439,15 @@ def main(argv=None):
     sub.add_parser("check-instagram")
     rt = sub.add_parser("refresh-token")
     rt.add_argument("--out", required=True)
+    sa = sub.add_parser("search-audio")
+    sa.add_argument("q", nargs="*")
     iv = sub.add_parser("import-verses")
     iv.add_argument("--limit", type=int, help="add at most this many")
     iv.add_argument("--min-waiting", type=int, help="only import if fewer than this many verses are waiting")
     args = p.parse_args(argv)
     fn = {"validate": cmd_validate, "render": cmd_render, "prepare": cmd_prepare, "publish": cmd_publish,
           "preview": cmd_preview, "check-instagram": cmd_check_instagram, "refresh-token": cmd_refresh_token,
-          "import-verses": cmd_import_verses}[args.cmd]
+          "import-verses": cmd_import_verses, "search-audio": cmd_search_audio}[args.cmd]
     return fn(args)
 
 
