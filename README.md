@@ -21,6 +21,18 @@ It runs on GitHub Actions. Your computer can be off.
 
 ---
 
+## Finish the Mezmur (daily Reel, 8:00 AM)
+
+Separate from the verse post: every day at **8:00 AM Chicago time** the bot posts the next **Finish the Mezmur** video to Instagram as a Reel.
+
+- **Where the videos are:** `mezmur_reels/queue/`, copied from your Desktop folder *MezmurFaith Social → Finish the Mezmur*. Videos 1, 2, 3 and 7 were already posted by hand, so the queue starts at 04.
+- **Order:** lowest number first. After posting, the video moves to `mezmur_reels/posted/` and is listed in `mezmur_reels/history.json`, so nothing is posted twice.
+- **Caption:** `mezmur_caption` in `config.json`, copied from your Captions.txt.
+- **Sound:** Instagram adds your saved song (`mezmur_audio_id` in `config.json`, "Filled With Praises (Instrumental)") and turns the video's own sound down. If Instagram won't attach the song, the video posts with its own sound and you get an email.
+- **Pause:** set `"mezmur_paused": true` in `config.json`.
+- **Test:** Actions → *Daily Finish the Mezmur* → Run workflow → `test` uploads the next video without publishing it.
+- **When the queue is empty** you get an email. To add more videos, put new `.mp4` files in `mezmur_reels/queue/`.
+
 ## Where the verses come from (automatic)
 
 The bot copies verses from published Bibles online. It never writes or translates Tigrinya itself.

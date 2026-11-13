@@ -1,0 +1,63 @@
+name: Daily Finish the Mezmur
+
+on:
+  schedule:
+    # GitHub uses UTC and ignores daylight saving time, so run at both possible
+    # UTC times. The bot only posts once it's 8:00 AM or later in Chicago, once a day.
+    - cron: "0 13 * * *"   # 8:00 AM Chicago in summer (CDT)
+    - cron: "0 14 * * *"   # 8:00 AM Chicago in winter (CST)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "test = upload but don't publish · post = post now"
+        type: choice
+        options: [test, post]
+        default: test
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: daily-mezmur
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -q -r requirements.txt
+
+      - name: Post the next Finish the Mezmur video
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ inputs.mode }}" = "test" ]; then python -m bot.main mezmur --test
+          elif [ "${{ inputs.mode }}" = "post" ]; then python -m bot.main mezmur --force
+          else python -m bot.main mezmur; fi
+
+      - name: Remember which video was posted
+        if: always()
+        run: |
+          git config user.name "mezmurfaith-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A mezmur_reels
+          git diff --cached --quiet || (git commit -q -m "Posted Finish the Mezmur for $(TZ=America/Chicago date +%F)" && git pull -q --rebase && git push -q)
+
+      - name: Tell me if something unexpected broke
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -f state/notified ] && exit 0
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "[verse bot] Finish the Mezmur run failed" \
+            --body "Log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

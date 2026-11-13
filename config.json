@@ -18,5 +18,9 @@
   "require_approval": false,
   "label_ai_generated": false,
   "instagram_api_version": "v27.0",
-  "public_base_url": ""
+  "public_base_url": "",
+  "mezmur_paused": false,
+  "mezmur_post_time": "08:00",
+  "mezmur_caption": "How well do you know this mezmur? Comment the next line before the answer shows.\n\n#mezmur #tigrinya #eritreantiktok #orthodox #tewahedo",
+  "mezmur_audio_id": "1672262176745999"
 }

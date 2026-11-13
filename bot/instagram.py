@@ -87,15 +87,38 @@ class Instagram:
             body["is_ai_generated"] = True
         return self._call("POST", f"{self.user_id}/media", json=body)["id"]
 
+    def create_reel(self, video_path, caption: str, audio_id: str | None = None) -> str:
+        """Upload a Reel video straight to Instagram (no public hosting needed). Returns the container id.
+        With audio_id, Instagram adds that song from its music library and the video's own sound is turned down."""
+        import json as _json
+        import os as _os
+        body: dict = {"media_type": "REELS", "upload_type": "resumable", "caption": caption, "share_to_feed": "true"}
+        if audio_id:
+            body["audio_configuration"] = _json.dumps({"audio_id": str(audio_id), "audio_volume": 100, "video_volume": 1})
+        res = self._call("POST", f"{self.user_id}/media", data=body)
+        cid = res["id"]
+        uri = res.get("uri") or f"https://rupload.facebook.com/ig-api-upload/{self.version}/{cid}"
+        size = _os.path.getsize(video_path)
+        try:
+            with open(video_path, "rb") as f:
+                r = requests.post(uri, data=f, timeout=300, headers={
+                    "Authorization": f"OAuth {self.token}", "offset": "0", "file_size": str(size)})
+        except Exception as e:
+            raise InstagramError(_scrub(f"Video upload failed: {type(e).__name__}: {e}", self.token)) from None
+        if r.status_code >= 400:
+            raise InstagramError(_scrub(f"Video upload failed ({r.status_code}): {r.text[:300]}", self.token))
+        return cid
+
     def wait_until_ready(self, container_id: str, timeout: int = 300, every: int = 20) -> None:
         deadline = time.time() + timeout
         while True:
-            status = self._call("GET", container_id, params={"fields": "status_code"}).get("status_code")
+            d = self._call("GET", container_id, params={"fields": "status_code,status"})
+            status = d.get("status_code")
             log.info("Container status: %s", status)
             if status == "FINISHED":
                 return
             if status in ("ERROR", "EXPIRED"):
-                raise InstagramError(f"Instagram could not process the image (status {status}).")
+                raise InstagramError(f"Instagram could not process the media (status {status}: {d.get('status')}).")
             if time.time() > deadline:
                 raise InstagramError("Instagram took too long to process the image.")
             time.sleep(every)

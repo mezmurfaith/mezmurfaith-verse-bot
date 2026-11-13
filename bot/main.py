@@ -387,6 +387,11 @@ def cmd_refresh_token(args):
     return 0
 
 
+def cmd_mezmur(args):
+    from bot import mezmur
+    return mezmur.run(load_config(), force=args.force, dry_run=args.dry_run, test=args.test)
+
+
 def cmd_import_verses(args):
     from bot.fetch_verses import import_verses
     waiting = sum(1 for v in verses.load() if not v.get("posted") and not verses.problems(v))
@@ -420,13 +425,17 @@ def main(argv=None):
     sub.add_parser("check-instagram")
     rt = sub.add_parser("refresh-token")
     rt.add_argument("--out", required=True)
+    mz = sub.add_parser("mezmur")
+    mz.add_argument("--force", action="store_true", help="ignore the 8:00 AM time check")
+    mz.add_argument("--dry-run", action="store_true", help="only say which video would be posted")
+    mz.add_argument("--test", action="store_true", help="upload to Instagram but do NOT publish")
     iv = sub.add_parser("import-verses")
     iv.add_argument("--limit", type=int, help="add at most this many")
     iv.add_argument("--min-waiting", type=int, help="only import if fewer than this many verses are waiting")
     args = p.parse_args(argv)
     fn = {"validate": cmd_validate, "render": cmd_render, "prepare": cmd_prepare, "publish": cmd_publish,
           "preview": cmd_preview, "check-instagram": cmd_check_instagram, "refresh-token": cmd_refresh_token,
-          "import-verses": cmd_import_verses}[args.cmd]
+          "import-verses": cmd_import_verses, "mezmur": cmd_mezmur}[args.cmd]
     return fn(args)
 
 
