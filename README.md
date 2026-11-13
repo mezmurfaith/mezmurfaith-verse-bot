@@ -21,17 +21,6 @@ It runs on GitHub Actions. Your computer can be off.
 
 ---
 
-## Mezmur music (Reels)
-
-Each daily post is a **Reel**: the verse poster on a tall cream page, with a **mezmur** playing for 30 seconds.
-
-- The bot uses **only songs already used on your own @mezmurfaith Reels**, i.e. songs you picked from Instagram's music library. It attaches them through Instagram's official Audio API, so they stay properly licensed.
-- If your Reels use several songs, the bot rotates between them, using the one played least recently.
-- To add a new mezmur, post a Reel on the account with that song. The bot finds it automatically.
-- If a Reel ever fails, the bot posts the normal picture instead, so no day is missed, and opens an Issue to let you know.
-- To switch back to picture posts, set `"post_as_reel": false` in `config.json`.
-- **Test Reel (not published)** under Actions uploads a Reel with the mezmur to check everything works, without publishing it.
-
 ## Where the verses come from (automatic)
 
 The bot copies verses from published Bibles online. It never writes or translates Tigrinya itself.

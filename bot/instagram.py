@@ -65,19 +65,6 @@ class Instagram:
             data = data["data"][0]
         return [{"id": str(data.get("user_id")), "username": data.get("username")}]
 
-    def search_audio(self, query: str | None = None, audio_type: str = "music") -> list[dict]:
-        """Instagram audio authorized for third-party use (Unified/Facebook login only).
-        No query = trending audio."""
-        params = {"audio_type": audio_type, "user_id": self.user_id}
-        if query:
-            params["search_query"] = query
-        return self._call("GET", "ig_audio", params=params).get("audio", [])
-
-    def my_media(self, limit: int = 50) -> list[dict]:
-        """Posts and Reels on this account, newest first."""
-        fields = "id,media_type,media_product_type,caption,permalink,timestamp"
-        return self._call("GET", f"{self.user_id}/media", params={"fields": fields, "limit": limit}).get("data", [])
-
     def token_expiry(self) -> int | None:
         """Unix time the token expires; 0 = never; None = unknown."""
         if not self.unified:
@@ -100,64 +87,15 @@ class Instagram:
             body["is_ai_generated"] = True
         return self._call("POST", f"{self.user_id}/media", json=body)["id"]
 
-    def audio_info(self, audio_id: str) -> dict:
-        return self._call("GET", audio_id, params={"user_id": self.user_id})
-
-    def mezmur_audio_ids(self) -> list[str]:
-        """Songs from Instagram's music library used on this account's own Reels (newest first)."""
-        ids = []
-        for m in self.my_media(limit=100):
-            if m.get("media_product_type") != "REELS":
-                continue
-            try:
-                d = self._call("GET", m["id"], params={"fields": "media_audio_type,audio_id"})
-            except InstagramError:
-                continue
-            aid = d.get("audio_id")
-            if aid and d.get("media_audio_type") == "MUSIC" and aid not in ids:
-                ids.append(str(aid))
-        return ids
-
-    def create_reel(self, video_path, caption: str, audio_id: str | None = None,
-                    cover_url: str | None = None, alt_text: str | None = None) -> str:
-        """Upload a Reel video directly to Instagram (no public hosting needed) and return the container id."""
-        import json as _json
-        import os as _os
-        body: dict = {"media_type": "REELS", "upload_type": "resumable", "caption": caption, "share_to_feed": True}
-        if audio_id:
-            # Instagram mixes in the library song; our video track is silent.
-            body["audio_configuration"] = _json.dumps({"audio_id": str(audio_id), "audio_volume": 100, "video_volume": 1})
-        if cover_url:
-            body["cover_url"] = cover_url
-        if alt_text:
-            body["alt_text"] = alt_text[:1000]
-        res = self._call("POST", f"{self.user_id}/media", data=body)
-        cid, uri = res["id"], res.get("uri") or f"https://rupload.facebook.com/ig-api-upload/{self.version}/{res['id']}"
-        size = _os.path.getsize(video_path)
-        try:
-            with open(video_path, "rb") as f:
-                r = requests.post(uri, data=f, timeout=300, headers={
-                    "Authorization": f"OAuth {self.token}", "offset": "0", "file_size": str(size)})
-            ok = r.status_code < 400 and (r.json() if r.content else {}).get("success", True)
-        except Exception as e:
-            raise InstagramError(_scrub(f"Video upload failed: {type(e).__name__}: {e}", self.token)) from None
-        if not ok:
-            raise InstagramError(_scrub(f"Video upload failed ({r.status_code}): {r.text[:300]}", self.token))
-        return cid
-
-    def container_status(self, container_id: str) -> dict:
-        return self._call("GET", container_id, params={"fields": "status_code,status"})
-
     def wait_until_ready(self, container_id: str, timeout: int = 300, every: int = 20) -> None:
         deadline = time.time() + timeout
         while True:
-            d = self._call("GET", container_id, params={"fields": "status_code,status"})
-            status = d.get("status_code")
+            status = self._call("GET", container_id, params={"fields": "status_code"}).get("status_code")
             log.info("Container status: %s", status)
             if status == "FINISHED":
                 return
             if status in ("ERROR", "EXPIRED"):
-                raise InstagramError(f"Instagram could not process the media (status {status}: {d.get('status')}).")
+                raise InstagramError(f"Instagram could not process the image (status {status}).")
             if time.time() > deadline:
                 raise InstagramError("Instagram took too long to process the image.")
             time.sleep(every)

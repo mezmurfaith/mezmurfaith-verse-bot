@@ -223,37 +223,6 @@ def cmd_prepare(args):
     return 0
 
 
-def pick_mezmur(ig) -> dict:
-    """The mezmur from this account's own Reels that was used least recently."""
-    ids = ig.mezmur_audio_ids()
-    if not ids:
-        raise RuntimeError("No mezmur found on your Reels (no Reel uses a song from Instagram's music library).")
-    last_used = {}
-    for h in reversed(history()):  # oldest → newest, so newer dates win
-        if h.get("audio_id"):
-            last_used[h["audio_id"]] = h["date"]
-    aid = min(ids, key=lambda i: (last_used.get(i, ""), ids.index(i)))
-    try:
-        info = ig.audio_info(aid)
-    except Exception:
-        info = {}
-    return {"id": aid, "title": info.get("title")}
-
-
-def post_reel(ig, pending, alt, cfg):
-    """Verse poster as a 9:16 Reel with a mezmur from the account's own Reels."""
-    from PIL import Image
-    from bot import reel
-    audio = pick_mezmur(ig)
-    video = reel.make_video(Image.open(ROOT / pending["image_path"]), STATE / "reel.mp4",
-                            seconds=cfg.get("reel_seconds", 30))
-    cid = ig.create_reel(video, pending["caption"], audio_id=audio["id"], alt_text=alt)
-    ig.wait_until_ready(cid, timeout=600)
-    media_id = ig.publish(cid)
-    log.info("Posted Reel with mezmur %s (%s)", audio.get("title"), audio["id"])
-    return media_id, audio
-
-
 def cmd_publish(args):
     from bot.instagram import Instagram, InstagramError, wait_until_public
 
@@ -267,33 +236,20 @@ def cmd_publish(args):
         return 0
     v = next(x for x in verses.load() if x["id"] == pending["verse_id"])
     url = f"{public_base_url(cfg)}/{pending['image_path']}"
-    alt = f"{v['english_text']} — {v['english_ref']}. Charcoal drawing: {v['scene_prompt']}."
     try:
+        wait_until_public(url)
         ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", ""), os.environ.get("IG_USER_ID", ""), cfg["instagram_api_version"])
+        cid = ig.create_image_container(
+            url, pending["caption"],
+            alt_text=f"{v['english_text']} — {v['english_ref']}. Charcoal drawing: {v['scene_prompt']}.",
+            ai_generated=cfg.get("label_ai_generated", False),
+        )
+        ig.wait_until_ready(cid)
+        media_id = ig.publish(cid)
     except InstagramError as e:
-        notify(f"Instagram post failed on {pending['date']}", str(e))
+        notify(f"Instagram post failed on {pending['date']}", f"{e}\n\nThe poster is saved in `{pending['image_path']}`. "
+               "If the token expired, follow 'Get a new Instagram token' in the README.")
         return 1
-
-    media_id, fmt, audio = None, "image", None
-    if cfg.get("post_as_reel"):
-        try:
-            media_id, audio = post_reel(ig, pending, alt, cfg)
-            fmt = "reel"
-        except Exception as e:  # never miss a day: fall back to the picture post
-            log.warning("Reel failed, posting the picture instead: %s", e)
-            notify(f"Reel with mezmur failed on {pending['date']} — posted the picture instead",
-                   f"{e}\n\nToday's verse was still posted, as a picture without music.")
-    if media_id is None:
-        try:
-            wait_until_public(url)
-            cid = ig.create_image_container(url, pending["caption"], alt_text=alt,
-                                            ai_generated=cfg.get("label_ai_generated", False))
-            ig.wait_until_ready(cid)
-            media_id = ig.publish(cid)
-        except InstagramError as e:
-            notify(f"Instagram post failed on {pending['date']}", f"{e}\n\nThe poster is saved in `{pending['image_path']}`. "
-                   "If the token expired, follow 'Get a new Instagram token' in the README.")
-            return 1
     link = ig.permalink(media_id)
     log.info("Posted! %s", link or media_id)
 
@@ -303,8 +259,7 @@ def cmd_publish(args):
         "date": pending["date"], "id": v["id"],
         "english_text": v["english_text"], "english_ref": v["english_ref"],
         "tigrinya_text": v["tigrinya_text"], "tigrinya_ref": v["tigrinya_ref"],
-        "image_url": url, "instagram_url": link, "format": fmt,
-        **({"audio_id": audio["id"], "audio_title": audio.get("title")} if audio else {}),
+        "image_url": url, "instagram_url": link,
     }
     write_json(API / "history.json", [record] + history())
     write_json(API / "today.json", record)
@@ -432,94 +387,6 @@ def cmd_refresh_token(args):
     return 0
 
 
-def cmd_search_audio(args):
-    from bot.instagram import Instagram, InstagramError
-    cfg = load_config()
-    ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip(),
-                   cfg["instagram_api_version"])
-    try:
-        media = ig.my_media()
-        print(f"Your account has {len(media)} recent posts/Reels:")
-        for m in media:
-            cap = (m.get("caption") or "").replace("\n", " ")[:70]
-            print(f"   - {m.get('timestamp', '')[:10]} {m.get('media_product_type')}/{m.get('media_type')} {m.get('permalink')} | {cap}")
-            if m.get("media_product_type") == "REELS" and args.probe:
-                import subprocess, tempfile
-                import requests as rq
-                url = ig._call("GET", m["id"], params={"fields": "media_url"}).get("media_url")
-                if not url:
-                    print("       video download: NOT available (Instagram hides it, e.g. licensed music)")
-                    continue
-                with tempfile.NamedTemporaryFile(suffix=".mp4") as f:
-                    f.write(rq.get(url, timeout=60).content); f.flush()
-                    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type:format=duration",
-                                          "-of", "csv=p=0", f.name], capture_output=True, text=True).stdout.split()
-                    print(f"       video download: OK, streams/duration: {' '.join(out)}")
-    except InstagramError as e:
-        print("Could not list your posts:", e)
-    for q in args.q or [None]:
-        for kind in ("music", "original_sound"):
-            try:
-                found = ig.search_audio(q, kind)
-            except InstagramError as e:
-                print(f"[{kind}] search {q!r} failed: {e}")
-                continue
-            print(f"[{kind}] search {q or '(trending)'!r}: {len(found)} results")
-            for a in found[:10]:
-                who = a.get("display_artist") or a.get("ig_username") or "?"
-                print(f"   - {a.get('title')} — {who} ({int(a.get('duration_in_ms') or 0) // 1000}s) id={a.get('audio_id')}")
-    return 0
-
-
-def cmd_media_fields(args):
-    """Read-only: try extra fields on this account's Reels (to find each Reel's audio)."""
-    from bot.instagram import Instagram, InstagramError
-    cfg = load_config()
-    ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip(),
-                   cfg["instagram_api_version"])
-    reels = [m for m in ig.my_media() if m.get("media_product_type") == "REELS"][:2]
-    for m in reels:
-        print("Reel", m.get("permalink"))
-        for f in args.fields.split(","):
-            try:
-                print(f"   {f}: {json.dumps(ig._call('GET', m['id'], params={'fields': f}).get(f), ensure_ascii=False)[:300]}")
-            except InstagramError as e:
-                print(f"   {f}: (error) {str(e)[:160]}")
-    return 0
-
-
-def cmd_test_reel(args):
-    """Safe test: upload a Reel with the mezmur to Instagram but do NOT publish it."""
-    from PIL import Image
-    from bot import reel
-    from bot.instagram import Instagram, InstagramError
-    cfg = load_config()
-    ig = Instagram(os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip(),
-                   cfg["instagram_api_version"])
-    ids = ig.mezmur_audio_ids()
-    print(f"Mezmur songs found on your Reels: {len(ids)}")
-    for aid in ids:
-        try:
-            a = ig.audio_info(aid)
-            print(f"   - {a.get('title')} — {a.get('display_artist') or a.get('ig_username')} "
-                  f"({int(a.get('duration_in_ms') or 0) // 1000}s) id={aid}")
-        except InstagramError as e:
-            print(f"   - id={aid} (details unavailable: {str(e)[:120]})")
-    if not ids:
-        return 1
-    poster = sorted(QUEUE.glob("*.jpg")) or sorted(POSTERS.glob("*.jpg"))
-    video = reel.make_video(Image.open(poster[-1]), OUTPUT / "test-reel.mp4", seconds=cfg.get("reel_seconds", 30))
-    print(f"Made test video from {poster[-1].name}")
-    try:
-        cid = ig.create_reel(video, "Test only. Not published.", audio_id=ids[0])
-        ig.wait_until_ready(cid)
-        print("Instagram accepted the Reel with the mezmur attached (status FINISHED). It was NOT published.")
-    except InstagramError as e:
-        print("Instagram did not accept it:", e)
-        return 1
-    return 0
-
-
 def cmd_import_verses(args):
     from bot.fetch_verses import import_verses
     waiting = sum(1 for v in verses.load() if not v.get("posted") and not verses.problems(v))
@@ -553,20 +420,13 @@ def main(argv=None):
     sub.add_parser("check-instagram")
     rt = sub.add_parser("refresh-token")
     rt.add_argument("--out", required=True)
-    sa = sub.add_parser("search-audio")
-    sa.add_argument("q", nargs="*")
-    sa.add_argument("--probe", action="store_true", help="check whether each Reel's audio can be downloaded")
-    sub.add_parser("test-reel")
-    mf = sub.add_parser("media-fields")
-    mf.add_argument("--fields", required=True)
     iv = sub.add_parser("import-verses")
     iv.add_argument("--limit", type=int, help="add at most this many")
     iv.add_argument("--min-waiting", type=int, help="only import if fewer than this many verses are waiting")
     args = p.parse_args(argv)
     fn = {"validate": cmd_validate, "render": cmd_render, "prepare": cmd_prepare, "publish": cmd_publish,
           "preview": cmd_preview, "check-instagram": cmd_check_instagram, "refresh-token": cmd_refresh_token,
-          "import-verses": cmd_import_verses, "search-audio": cmd_search_audio,
-          "media-fields": cmd_media_fields, "test-reel": cmd_test_reel}[args.cmd]
+          "import-verses": cmd_import_verses}[args.cmd]
     return fn(args)
 
 
