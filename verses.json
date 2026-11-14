@@ -31,8 +31,8 @@
     "tigrinya_text": "እቶም ንእግዚኣብሄር ዚጽበዩ ግና ሓይሎም ይሕደስ። ከም ንስሪ በኽናፍ ይድይቡ፡ ይጐዩ እሞ ኣይሕለሉን፡ ይኸዱ እሞ ኣይደኽሙን።",
     "tigrinya_ref": "ኢሳይያስ 40፥31",
     "scene_prompt": "an eagle soaring high above mountain peaks with wings spread wide",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-14",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/isaiah/chapter-40.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=23&chapter=40",
