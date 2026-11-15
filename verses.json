@@ -46,8 +46,8 @@
     "tigrinya_text": "ብምሉእ ልብኻ ብእግዚኣብሄር ተኣመን፡ ኣብ ልቦናኻ ኣይትጸጋዕ።",
     "tigrinya_ref": "ምሳሌ 3፥5",
     "scene_prompt": "a person walking a narrow path through a field at dusk, carrying a small oil lantern",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-15",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/proverbs/chapter-3.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=20&chapter=3",
