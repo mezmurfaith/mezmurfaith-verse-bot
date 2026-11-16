@@ -61,8 +61,8 @@
     "tigrinya_text": "ጽናዕ፡ ትባዕ፡ ኢለዶ ኣይኣዘዝኩኻን፧ እግዚኣብሄር ኣምላኽካ፡ ኣብ እትኸዶ ዅሉ ምሳኻ እዩ እሞ፡ ኣይትፍራህ ኣይትሸበር ከኣ።",
     "tigrinya_ref": "ኢያሱ 1፥9",
     "scene_prompt": "a lone traveler standing on a riverbank looking across the water toward a promised land",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-16",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/joshua/chapter-1.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=6&chapter=1",
