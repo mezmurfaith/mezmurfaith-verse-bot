@@ -91,8 +91,8 @@
     "tigrinya_text": "ኣቱም ኵልኹም እትጽዕሩን ጾር ዝኸበደኩምን፡ ኣነ ኸዕርፈኩም ናባይ ንዑ።",
     "tigrinya_ref": "ማቴዎስ 11፥28",
     "scene_prompt": "a weary traveler resting in the shade of a large old tree beside a road",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-18",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/matthew/chapter-11.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=40&chapter=11",
