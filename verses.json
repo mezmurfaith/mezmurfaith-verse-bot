@@ -106,8 +106,8 @@
     "tigrinya_text": "ኣምላኽ ንኣና መዕቈብን ሓይልን፣ ብጸበባ ፍጡን ረድኤትን እዩ።",
     "tigrinya_ref": "ዳዊት 46፥1",
     "scene_prompt": "an ancient stone fortress standing firm on a rocky hill",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-19",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-46.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=19&chapter=46",
