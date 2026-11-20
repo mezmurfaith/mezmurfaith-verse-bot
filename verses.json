@@ -121,8 +121,8 @@
     "tigrinya_text": "ቃልካ ንእግረይ መብራህቲ፡ ንመገደይ ብርሃን እዩ።",
     "tigrinya_ref": "ዳዊት 119፥105",
     "scene_prompt": "a small oil lamp lighting a dark rocky path at night",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-20",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-119.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=19&chapter=119",
