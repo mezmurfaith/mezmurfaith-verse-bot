@@ -136,8 +136,8 @@
     "tigrinya_text": "ኣምላኽ፡ በቲ ሓደ ወዱ ዝኣመነ ዅሉ ናይ ዘለኣለም ህይወት ምእንቲ ኺረክብ እምበር፡ ከይጠፍእሲ፡ ንወዱ በጃ ኽሳዕ ዚህብ፡ ክሳዕ ክንድዚ ንዓለም ኣፍቀራ።",
     "tigrinya_ref": "ወ. ዮሐንስ 3፥16",
     "scene_prompt": "a simple wooden cross on a hill at dawn with soft rays of light behind it",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-21",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/john/chapter-3.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=43&chapter=3",
