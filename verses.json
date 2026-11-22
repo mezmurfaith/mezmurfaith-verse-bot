@@ -151,8 +151,8 @@
     "tigrinya_text": "ብተስፋ ተሐጐሱ፡ ብጸበባ ተዓገሱ፡ ጸሎት ኣዘውትሩ።",
     "tigrinya_ref": "ሮሜ 12፥12",
     "scene_prompt": "a person kneeling in quiet prayer beside a window with morning light",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-22",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/romans/chapter-12.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=45&chapter=12",
