@@ -181,8 +181,8 @@
     "tigrinya_text": "ቅድም መንግስቲ ኣምላኽን ጽድቁን ድለዩ፡ እዚ ኹሉ ድማ ይውሰኸልኩም።",
     "tigrinya_ref": "ማቴዎስ 6፥33",
     "scene_prompt": "wild lilies growing in a quiet meadow with birds overhead",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-24",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/matthew/chapter-6.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=40&chapter=6",
