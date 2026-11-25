@@ -196,8 +196,8 @@
     "tigrinya_text": "እግዚኣብሄር ብርሃነይን ምድሓነይን እዩ፣ ካብ መን ደአ እየ ዝፈርህ፧ እግዚኣብሄር ሓይሊ ህይወተይ እዩ፣ ካብ መንከ እየ ዝስምብድ፧",
     "tigrinya_ref": "ዳዊት 27፥1",
     "scene_prompt": "a lighthouse shining its beam over a stormy sea",
-    "posted": false,
-    "posted_date": null,
+    "posted": true,
+    "posted_date": "2026-11-25",
     "source": {
       "tigrinya": "https://www.bible.club/tigrigna/psalms/chapter-27.html",
       "tigrinya_check": "http://bibleonline.geezexperience.com/tigrinya/list.php?book=19&chapter=27",
